@@ -58,6 +58,8 @@
                           <label class="control-label">Confirm New Password :</label>
                           <div class="controls">
                             <input type="password" name="confirm_new_password" class="span11" required>
+                            <p class="taskStatus error-confirm" style="display: none;"><span class="pending"><i class="icon-info-sign"></i> Confirm Password is not Matches</span></p>
+                            <p class="taskStatus valid-confirm" style="display: none;"><span class="done"><i class="icon-ok-circle"></i> Matches</span></p>
                           </div>
                         </div>
                         <div class="form-actions">
@@ -128,14 +130,23 @@ $(document).ready(function() {
   // change password
 
         // validation password old
+        $('button.change').prop('disabled', true);
+        $('input[name=new_password]').prop('disabled', true);
+        $('input[name=confirm_new_password]').prop('disabled', true);
+
         $('input[name=password_old]').keyup(function() {
+          var password = $(this).val();
           $.ajax({
-            url : '<?= base_url('result/validation_change_password/password_old'); ?>'+'/'+user_id,
+            url : '<?= base_url('result/validation_change_password/password_old'); ?>'+'/'+user_id+'/'+password,
             success : function(response) {
               if (Number(response) == Number(1)) {
                 $('p.valid').slideDown('slow');
+                $('input[name=new_password]').prop('disabled', false);
+                $('input[name=confirm_new_password]').prop('disabled', false);
                 $('p.error').slideUp('slow');
               } else {
+                $('input[name=new_password]').prop('disabled', true);
+                $('input[name=confirm_new_password]').prop('disabled', true);
                 $('p.error').slideDown('slow');
                 $('p.valid').slideUp('slow');
               }
@@ -144,8 +155,40 @@ $(document).ready(function() {
         })
         // finish validation password old
 
-
-  
+        // validation confirm_new_password
+        $('input[name=confirm_new_password]').keyup(function() {
+          var new_password = $('input[name=new_password]').val();
+          var confirm_new_password = $(this).val();
+          if (new_password == confirm_new_password) {
+            $('p.error-confirm').slideUp('slow');
+            $('p.valid-confirm').slideDown('slow');
+            $('button.change').prop('disabled', false);
+          } else {
+            $('button.change').prop('disabled', true);
+            $('p.error-confirm').slideDown('slow');
+            $('p.valid-confirm').slideUp('slow');
+          }
+        })
+        // finish validation confirm new password
+        
+        // proses change password
+        $('button.change').click(function() {
+          var new_password = $('input[name=new_password]').val();
+          $.ajax({
+            url : '<?= base_url('result/validation_change_password/change_password') ?>'+'/'+user_id+'/'+new_password,
+            success : function(response) {
+              if (Number(response) == Number(1)) {
+                PNotify.success({
+                  text : 'Change Password Success !!!'
+                });
+                setTimeout(function() {
+                  $('p.logout').trigger('click');
+                }, 1200);
+              }
+            }
+          })
+        })
+        // finish proses change password
   
   // finish change password
 

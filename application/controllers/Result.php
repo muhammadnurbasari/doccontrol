@@ -507,7 +507,26 @@ class Result extends CI_Controller {
     	} else {
     		echo '01';
     	}
-    }
+	}
+	
+	function validation_change_password($type, $user_id, $value = '')
+	{
+		if ($type == 'password_old') {
+			$password_enkripsi = $this->Result_model->get_name_by_id('user', $user_id, 'password');
+			if ($password_enkripsi) {
+				if (password_verify($value, $password_enkripsi)) {
+					echo 1;
+				} else {
+					echo 0;
+				}
+			} else {
+				echo 0;
+			}
+		} elseif ($type == 'change_password') {
+			$this->Result_model->update_by_id('user', $user_id, ['password' => password_hash($value, PASSWORD_DEFAULT)]);
+			echo 1;
+		}
+	}
 
 	function templating($page, $data)
 	{
