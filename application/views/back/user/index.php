@@ -39,6 +39,7 @@
                     <?php if ($value['level_id'] == 2): $level = 'Head Of Dept'; endif ?>
                     <?php if ($value['level_id'] == 3): $level = 'Staff DC'; endif ?>
                     <?php if ($value['level_id'] == 4): $level = 'Head Of MR'; endif ?>
+                    <?php if ($value['level_id'] == 5): $level = 'Admin System'; endif ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
                       <td><?php echo $value['user_name']; ?></td>

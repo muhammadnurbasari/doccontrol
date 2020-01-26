@@ -460,6 +460,8 @@ class Result extends CI_Controller {
     		echo "QA";
     	} elseif ($department_code == 'MGN' || $department_code == 'MGNT' || $department_name == 'Management') {
     		echo "Management";
+    	} elseif ($department_code == 'IT') {
+    		echo "IT";
     	} else {
     		echo "Other";
     	}

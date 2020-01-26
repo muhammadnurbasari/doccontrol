@@ -141,8 +141,11 @@
           }
           if (response == 'Other') {
             $("select[name=level]").html(`<option value="" disabled selected>pilih...</option><option value="1">Staff Dept</option>
-                    <option value="2">Head Of Dept</option><option value="5">Admin System</option>`);
+                    <option value="2">Head Of Dept</option>`);
           }
+          if (response == 'IT') {
+          $("select[name=level]").html(`<option value="5">Admin System</option>`);
+        }
         }
       });
     }
