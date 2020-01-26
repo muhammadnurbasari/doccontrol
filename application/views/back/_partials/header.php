@@ -51,7 +51,7 @@
 </div>
 <!--close-top-Header-menu-->
 <style type="text/css">
-  li.logout {
+  li.logout , li.change_password {
     cursor: pointer;
   }
 </style>
