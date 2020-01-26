@@ -7,7 +7,7 @@
     <div id="breadcrumb"> <a href=""class="tip-bottom"><i class="icon-home"></i> <?php echo $title; ?></a></div>
   </div>
 <!--End-breadcrumbs-->
-
+<?php var_dump($this->session->userdata()); ?>
   <div class="container-fluid">   
       <h3><span class="badge tombol badge-info add">add <?php echo explode('_', $table)[0].' '.explode('_', $table)[1]; ?></span></h3>
       <div class="row-fluid">
