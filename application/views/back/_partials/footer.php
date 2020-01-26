@@ -25,6 +25,59 @@
         </div>
       </div>
 
+      <!-- modal change password -->
+        <div class="modal fade" id="changepassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+              <div class="row-fluid">
+                <div class="span12">
+                  <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                      <h5>department-info</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                      <form action="<?php echo base_url('result/change_password'); ?>" method="post" class="form-horizontal change">
+                        <div class="control-group">
+                          <label class="control-label">Password Old :</label>
+                          <div class="controls">
+                            <input type="password" class="span11" name="password_old" required>
+                            <p class="taskStatus error" style="display: none;"><span class="pending"><i class="icon-info-sign"></i> Your password old is not valid</span></p>
+                            <p class="taskStatus valid" style="display: none;"><span class="done"><i class="icon-ok-circle"></i> Valid</span></p>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label">New Password :</label>
+                          <div class="controls">
+                            <input type="password" name="new_password" class="span11" required>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label">Confirm New Password :</label>
+                          <div class="controls">
+                            <input type="password" name="confirm_new_password" class="span11" required>
+                          </div>
+                        </div>
+                        <div class="form-actions">
+                          <button type="button" class="btn btn-success change" data-dismiss="modal" aria-label="Close">Change Password</button>
+                          <button class="btn btn-danger " type="button" data-dismiss="modal" aria-label="Close"> Cancel
+                            <span aria-hidden="true">×</span>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
 <!--end-Footer-part-->
 
 <script src="<?= base_url('assets/'); ?>js/excanvas.min.js"></script> 
@@ -52,6 +105,7 @@ $(document).ready(function() {
 
   var $yield = $("div.yield");
   var table = '<?php echo $table ?>';
+  var user_id = '<?= $this->session->userdata('user')[0]['user_id']; ?>';
 
   // logout
   $('p.logout').click(function() {
@@ -70,6 +124,30 @@ $(document).ready(function() {
       }
     });
   });
+
+  // change password
+
+        // validation password old
+        $('input[name=password_old]').keyup(function() {
+          $.ajax({
+            url : '<?= base_url('result/validation_change_password/password_old'); ?>'+'/'+user_id,
+            success : function(response) {
+              if (Number(response) == Number(1)) {
+                $('p.valid').slideDown('slow');
+                $('p.error').slideUp('slow');
+              } else {
+                $('p.error').slideDown('slow');
+                $('p.valid').slideUp('slow');
+              }
+            }
+          })
+        })
+        // finish validation password old
+
+
+  
+  
+  // finish change password
 
   // go to form add
   $('body').on('click','span.add', function() {

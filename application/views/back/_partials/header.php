@@ -44,7 +44,7 @@
     <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text"><?php echo $this->session->userdata('user')[0]['user_name'] ?> | <?php echo $level; ?> | <?php echo $this->Result_model->get_name_by_id('department', $this->session->userdata('user')[0]['department_id'], 'department_code'); ?></span><b class="caret"></b></a>
       <ul class="dropdown-menu">
         <li class="logout"><p class="logout" style="padding: 5px;"><i class="icon-key"></i> Log Out</p></li>
-        <li class="change_password"><p class="change_password" style="padding: 5px;"><i class="icon-cogs"></i> Change password</p></li>
+        <li class="change_password" data-toggle="modal" data-target="#changepassword"><p class="change_password" style="padding: 5px;"><i class="icon-cogs"></i> Change password</p></li>
       </ul>
     </li>
   </ul>
