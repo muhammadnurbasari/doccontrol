@@ -70,7 +70,7 @@
                 <select class="span11" name="level" required>
                   <option value="" disabled selected>pilih...</option>
 
-                  <!-- <?php 
+                  <?php 
                     $opt1 = '';
                     $opt2 = '';
                     $opt3 = '';
@@ -102,7 +102,7 @@
                   <option value="2" <?php echo $opt2 ?>>Head Of Dept</option>
                   <option value="3" <?php echo $opt3 ?>>Staff DC</option>
                   <option value="4" <?php echo $opt4 ?>>Head Of MR</option>
-                  <option value="5" <?php echo $opt5 ?>>Admin System</option> -->
+                  <option value="5" <?php echo $opt5 ?>>Admin System</option>
                 </select>
               </div>
             </div>
@@ -118,8 +118,8 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    var id = $("input#dept_value").val();
-    load_select_level(id);
+    // var id = $("input#dept_value").val();
+    // load_select_level(id);
 
     $("select[name=department]").click(function() {
       var dept_id = $(this).val();
