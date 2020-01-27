@@ -95,20 +95,6 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label">Distribution To</label>
-                      <div class="controls">
-                      <?php 
-                        $this->db->where('status', 1);
-                        $departmen = $this->Result_model->getData('department');
-                        foreach ($departmen as $key => $value) { ?>
-                            <label>
-                                <input type="checkbox" class="span1" name="distribution_to" />
-                                <?= $value['department_code']; ?>
-                            </label>
-                      <?php } ?>
-                      </div>
-                    </div>
-                    <div class="control-group">
                       <label class="control-label">Choose Action</label>
                       <div class="controls">
                         <label>
@@ -126,7 +112,9 @@
             </div>
             <div class="form-actions">
               <button type="submit" class="btn btn-success approve-release">Approve</button>
-              <button type="submit" class="btn btn-danger">Cancel</button>
+              <a href="<?php echo base_url('result/release_approves'); ?>">
+                <button type="button" class="btn btn-danger">Cancel</button>
+              </a>
             </div>
           </form>
         </div>
