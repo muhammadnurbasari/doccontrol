@@ -108,6 +108,20 @@
                       <?php } ?>
                       </div>
                     </div>
+                    <div class="control-group">
+                      <label class="control-label">Choose Action</label>
+                      <div class="controls">
+                        <label>
+                        <input type="radio" class="span1" name="radios" />
+                        Approve</label>
+                        <label>
+                        <input type="radio" class="span1" name="radios" />
+                        Reject</label>
+                        <label>
+                        <input type="radio" class="span1" name="radios" />
+                        Revise</label>
+                      </div>
+                    </div>
                 </div>
             </div>
             <div class="form-actions">
