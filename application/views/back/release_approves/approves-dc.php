@@ -33,47 +33,39 @@
             </div>
             <div class="row-fluid">
               <div class="span12">
+                <?php
+                      // make doc_no
+                      $doc_no = 'ILP-'.$this->Result_model->get_name_by_id('document', $results->doc_type_id, 'document_code');
+                      $doc_no .= '-'.$this->Result_model->get_name_by_id('department', $results->department_id, 'department_code');
+                      if ($results->doc_category_id < 10) {
+                        $doc_category_id = '0'.$results->doc_category_id;
+                      } else {
+                        $doc_category_id = $results->doc_category_id;
+                      }
+                      $doc_no .= '-'.$doc_category_id;
+                      if ($results->doc_no < 10) {
+                        $doc_nomor_urut = '0'.$results->doc_no;
+                      } else {
+                        $doc_nomor_urut = $results->doc_no;
+                      }
+                      $doc_no .= '-'.$doc_nomor_urut;
+                      // finish mak doc_no
+
+                    //   make revise_no
+                      $revisi_no = $results->revisi_no;
+                      if ($revisi_no == NULL) {
+                          $rev_no = '00';
+                      } else {
+                          $revisi_no > 9 ? $rev_no = $revisi_no : $rev_no = '0'.$revisi_no;
+                      }
+                    // finish make revise_no
+                  ?>
                     <div class="control-group">
                       <label class="control-label">Document NO :</label>
                         <div class="controls controls-row">
-                          <input type="text" class="span1 m-wrap" readonly value="ILP" name="ilp">
-                          <input type="hidden" class="span1 m-wrap doc_id" readonly>
-                          <select class="span2 m-wrap doc_id" name="doc_type_id">
-                            <option value="" disabled>pilih doc</option>
-                            <?php
-                              $this->db->where('status', 1);
-                              $document = $this->Result_model->getData('document');
-                              foreach ($document as $key => $value) { 
-                                if ($results->doc_type_id == $value['document_id']) { ?>
-                                  <option value="<?php echo $value['document_id']; ?>/<?php echo $value['document_code']; ?>" selected><?php echo $value['document_code']; ?></option>
-                            <?php  } else { ?>
-                                <option value="<?php echo $value['document_id']; ?>/<?php echo $value['document_code']; ?>"><?php echo $value['document_code']; ?></option>
-                            <?php } ?>
-                            <?php }
-                            ?>
-                          </select>
-                          <input type="text" readonly name="department_id" value="<?php echo $this->Result_model->get_name_by_id('department', $results->department_id, 'department_code'); ?>" class="span2 m-wrap">
-                          <select class="span5 m-wrap doc_category" name="doc_category_id">
-                            <option value="" disabled>pilih doc category</option>
-                            <?php
-                              $this->db->where('status', 1);
-                              $doc_categories = $this->Result_model->get_by_name('doc_category','department_id', $this->session->userdata('user')[0]['department_id']);
-                              foreach ($doc_categories as $key => $value) { 
-                                if ($results->doc_category_id == $value['doc_category_id']) { ?>
-                                  <option value="<?php echo $value['doc_category_id']; ?>" selected><?php echo $value['doc_category_name']; ?></option>
-                            <?php } else { ?>
-                                <option value="<?php echo $value['doc_category_id']; ?>"><?php echo $value['doc_category_name']; ?></option>
-                            <?php } ?>
-                            <?php } ?>
-                          </select>
-                          <?php $results->doc_no > 9 ? $no = '' : $no = '0'; ?>
-                          <input type="text" class="span1 m-wrap" readonly value="<?php echo $no.$results->doc_no; ?>" name="doc_no">
+                            <input type="text" class="span9 doc_no" value="<?= $doc_no; ?>" readonly>
+                            <input type="text" class="span2 revise_no" value="<?= $rev_no; ?>" readonly>
                         </div>
-                    </div>
-                    <div class="control-group">
-                      <div class="controls">
-                        <input type="text" class="span11 doc_no" readonly>
-                      </div>
                     </div>
                     <div class="control-group">
                       <label class="control-label">Document Name :</label>
@@ -97,18 +89,30 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label">Ubah Document Files</label>
+                      <label class="control-label">Approve Note</label>
                       <div class="controls">
-                        <input type="file" name="doc_file" id="upload_file">
-                        <p id="error1" style="display:none; color:#FF0000;">
-                          Format file yang disetujui sistem : (PDF).
-                        </p>
+                        <input type="text" name="approve_note" class="span11">
                       </div>
                     </div>
-              </div>
+                    <div class="control-group">
+                      <label class="control-label">Distribution To</label>
+                      <div class="controls">
+                      <?php 
+                        $this->db->where('status', 1);
+                        $departmen = $this->Result_model->getData('department');
+                        foreach ($departmen as $key => $value) { ?>
+                            <label>
+                                <input type="checkbox" class="span1" name="distribution_to" />
+                                <?= $value['department_code']; ?>
+                            </label>
+                      <?php } ?>
+                      </div>
+                    </div>
+                </div>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-success edit-release">Update</button>
+              <button type="submit" class="btn btn-success approve-release">Approve</button>
+              <button type="submit" class="btn btn-danger">Cancel</button>
             </div>
           </form>
         </div>
