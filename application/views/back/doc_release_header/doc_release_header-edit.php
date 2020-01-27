@@ -16,24 +16,9 @@
               <div class="span6">
                 <div class="control-group">
                   <label class="control-label">Release Propose No :</label>
-                  <?php 
-                    $count_all = $this->db->count_all('doc_release_header');
-                    if ($count_all == 0) {
-                      $doc_release_code = 'RDP-'.date('Ymd').'-001';
-                    } else {
-                      $id = explode('-', $this->Result_model->get_name_by_id('doc_release_header', $this->Result_model->get_max_by_id('doc_release_header'), 'doc_release_code'))[2] + 1;
-                      if ($id < 9 || $id == 9) {
-                        $maks_id = '00'.$id;
-                      } elseif ($id > 9 || $id < 100) {
-                        $maks_id = '0'.$id;
-                      } else {
-                        $maks_id = $id;
-                      }
-                      $doc_release_code = 'RDP-'.date('Ymd').'-'.$maks_id;
-                    }
-                   ?>
                   <div class="controls">
-                    <input type="text" class="span11" name="doc_release_code" value="<?php echo $doc_release_code; ?>" readonly>
+                    <input type="text" class="span11" name="doc_release_code" value="<?php echo $results->doc_release_code; ?>" readonly>
+                    <input type="hidden" class="span11" name="doc_release_header_id" value="<?php echo $results->doc_release_header_id; ?>" readonly>
                   </div>
                 </div>
               </div>
@@ -41,7 +26,7 @@
                 <div class="control-group">
                   <label class="control-label">Date :</label>
                   <div class="controls">
-                    <input type="text" class="span11" name="doc_release_date" value="<?php echo date('d F Y'); ?>" readonly>
+                    <input type="text" class="span11" name="doc_release_date" value="<?php echo date('d F Y', strtotime($results->doc_release_date)); ?>" readonly>
                   </div>
                 </div>
               </div>
@@ -54,27 +39,35 @@
                           <input type="text" class="span1 m-wrap" readonly value="ILP" name="ilp">
                           <input type="hidden" class="span1 m-wrap doc_id" readonly>
                           <select class="span2 m-wrap doc_id" name="doc_type_id">
-                            <option value="" disabled selected>pilih doc</option>
+                            <option value="" disabled>pilih doc</option>
                             <?php
                               $this->db->where('status', 1);
                               $document = $this->Result_model->getData('document');
-                              foreach ($document as $key => $value) { ?>
+                              foreach ($document as $key => $value) { 
+                                if ($results->doc_type_id == $value['document_id']) { ?>
+                                  <option value="<?php echo $value['document_id']; ?>/<?php echo $value['document_code']; ?>" selected><?php echo $value['document_code']; ?></option>
+                            <?php  } else { ?>
                                 <option value="<?php echo $value['document_id']; ?>/<?php echo $value['document_code']; ?>"><?php echo $value['document_code']; ?></option>
+                            <?php } ?>
                             <?php }
                             ?>
                           </select>
-                          <input type="text" readonly name="department_id" value="<?php echo $this->Result_model->get_name_by_id('department', $this->session->userdata('user')[0]['department_id'], 'department_code'); ?>" class="span2 m-wrap">
+                          <input type="text" readonly name="department_id" value="<?php echo $this->Result_model->get_name_by_id('department', $results->department_id, 'department_code'); ?>" class="span2 m-wrap">
                           <select class="span5 m-wrap doc_category" name="doc_category_id">
-                            <option value="" disabled selected>pilih doc category</option>
+                            <option value="" disabled>pilih doc category</option>
                             <?php
                               $this->db->where('status', 1);
                               $doc_categories = $this->Result_model->get_by_name('doc_category','department_id', $this->session->userdata('user')[0]['department_id']);
-                              foreach ($doc_categories as $key => $value) { ?>
+                              foreach ($doc_categories as $key => $value) { 
+                                if ($results->doc_category_id == $value['doc_category_id']) { ?>
+                                  <option value="<?php echo $value['doc_category_id']; ?>" selected><?php echo $value['doc_category_name']; ?></option>
+                            <?php } else { ?>
                                 <option value="<?php echo $value['doc_category_id']; ?>"><?php echo $value['doc_category_name']; ?></option>
-                            <?php }
-                            ?>
+                            <?php } ?>
+                            <?php } ?>
                           </select>
-                          <input type="text" class="span1 m-wrap" readonly value="<?php echo '00'; ?>" name="doc_no">
+                          <?php $results->doc_no > 9 ? $no = '' : $no = '0'; ?>
+                          <input type="text" class="span1 m-wrap" readonly value="<?php echo $no.$results->doc_no; ?>" name="doc_no">
                         </div>
                     </div>
                     <div class="control-group">
@@ -85,28 +78,37 @@
                     <div class="control-group">
                       <label class="control-label">Document Name :</label>
                       <div class="controls">
-                        <input type="text" class="span11" name="doc_title">
+                        <input type="text" class="span11" name="doc_title" value="<?= $results->doc_title; ?>">
                       </div>
                     </div>
                     <div class="control-group">
                       <label class="control-label">Release Description :</label>
                       <div class="controls">
-                        <input type="text" class="span11" name="description">
+                        <input type="text" class="span11" name="description" value="<?= $results->description; ?>">
+                      </div>
+                    </div>
+                    <div class="control-group doc_file">
+                      <label class="control-label">Document Files</label>
+                      <input type="hidden" class="span11" name="doc_file_old" value="<?= $results->doc_file; ?>">
+                      <div class="controls">
+                        <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$results->doc_file) ?>">
+                          <span class="badge tombol badge-warning"><?= $results->doc_file; ?></span>
+                        </a>
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label">Document Files</label>
+                      <label class="control-label">Ubah Document Files</label>
                       <div class="controls">
                         <input type="file" name="doc_file" id="upload_file">
                         <p id="error1" style="display:none; color:#FF0000;">
-                          Forrmat file yang disetujui sistem : (PDF).
+                          Format file yang disetujui sistem : (PDF).
                         </p>
                       </div>
                     </div>
               </div>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-success edit-release">Save</button>
+              <button type="submit" class="btn btn-success edit-release">Update</button>
             </div>
           </form>
         </div>
@@ -117,25 +119,26 @@
 
         <script type="text/javascript">
           $(document).ready(function() {
-
-            $('button[type="submit"]').prop("disabled", true);
+            $('button[type="submit"]').prop("disabled", false);
               var a=0;
               //binds to onchange event of your input field
               $('#upload_file').bind('change', function() {
-                if ($('button:button').attr('disabled',false)){
-                  $('button:button').attr('disabled',true);
+                if ($('button:button').attr('disabled',true)){
+                  $('button:button').attr('disabled',false);
                  }
                 var ext = $('#upload_file').val().split('.').pop().toLowerCase();
                 if ($.inArray(ext, ['pdf']) == -1){
                    $('#error1').slideDown("slow");
                    a=0;
+                   $('button:button').attr('disabled',true);
                  } else {
                    $('button:button').attr('disabled',false);
                    $('#error1').slideUp("slow");
+                   $('div.doc_file').slideUp('slow');
                  }
               });
 
-            $("select.doc_category").prop('disabled', true);
+            $("select.doc_category").prop('disabled', false);
             $('body').on('change','select.doc_id', function() {
               var doc_category = $("select.doc_category").val();
               $("select.doc_category").prop('disabled', false);
@@ -170,10 +173,10 @@
               })
             }
 
-            $('form.add-release').submit(function(e){
+            $('form.edit-release').submit(function(e){
             e.preventDefault(); 
                  $.ajax({
-                     url: '<?php echo base_url('result/doc_release_header/add');?>',
+                     url: '<?php echo base_url('result/doc_release_header/update');?>',
                      type: "post",
                      data: new FormData(this),
                      processData:false,
@@ -183,7 +186,7 @@
                       success: function(response){
                          if (Number(response) == Number(1)) {
                             PNotify.success({
-                              text : 'Berhasil Simpan'
+                              text : 'Berhasil Update'
                             });
                             setTimeout(function() {
                               window.location.replace('<?php echo base_url('result/doc_release_header'); ?>')
