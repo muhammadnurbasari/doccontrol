@@ -580,6 +580,27 @@ class Result extends CI_Controller {
             $data['title'] = 'Edit '.$table;
             $data['table'] = $table;
             $page = 'back/'.$table.'/'.$table.'-edit';
+			
+            return $this->load->view($page, $data);
+        }
+	}
+	
+	function ajax_load_approves($info, $id)
+    {
+		if ($info ==  "dc") {
+			$this->_sessionguard();
+			$data['results'] = $this->db->get_where('doc_release_header',['doc_release_header_id' => $id])->row();
+            $data['title'] = 'Approves Menu';
+            $data['table'] = 'doc_release_header';
+            $page = 'back/release_approves/approves-dc';
+			
+            return $this->load->view($page, $data);
+        } elseif ($info == "nondc") {
+			$this->_sessionguard();
+			$data['results'] = $this->db->get_where('doc_release_header',['doc_release_header_id' => $id])->row();
+            $data['title'] = 'Approves Menu';
+            $data['table'] = 'doc_release_header';
+            $page = 'back/release_approves/approves-non-dc';
 
             return $this->load->view($page, $data);
         }

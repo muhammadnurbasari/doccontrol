@@ -257,6 +257,27 @@ $(document).ready(function() {
     });
   });
 
+  // go to form approves
+        $('body').on('click','span.approves-release', function() {
+            var info = $(this).data('info');
+            var id = $(this).data('id');
+            console.log(info)
+            $.ajax({
+            url : '<?php echo base_url('result/ajax_load_approves'); ?>'+'/'+info+'/'+id,
+            success : function(response) {
+                $yield.html(`
+                    <div id="content-header">
+                        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> <?php echo $title; ?></a></div>
+                    </div>
+                    <img src="<?php echo base_url('assets/img/loading.gif'); ?>">
+                `);
+                setTimeout(function() {
+                $yield.html(response);
+                }, 1000);
+            }
+            })
+        })
+
   // proses edit
   $('body').on('click','button.edit', function() {
     var form = $('form.edit');

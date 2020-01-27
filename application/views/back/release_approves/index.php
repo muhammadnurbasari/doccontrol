@@ -59,6 +59,15 @@
                       <td><?php echo $this->Result_model->get_name_by_id('user', $value['created_by'], 'user_name'); ?></td>
                       <td><?php echo $value['doc_status'] == 0 ? '<span class="badge badge-important">Waiting</span>' : '<span class="badge badge-success">Approved</span>'; ?></td>
                       <td>
+                        <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
+                          <span class="badge tombol badge-warning"><i class="icon-info-sign"></i> view doc</span>
+                        </a>
+                        <?php 
+                            if ($this->session->userdata('user')[0]['level_id'] == 3) { ?>
+                                <span class="badge tombol badge-success approves-release" data-info="dc" data-id="<?= $value['doc_release_header_id']; ?>"><i class="icon-edit"></i> approves</span>
+                        <?php } else { ?>
+                                <span class="badge tombol badge-success approves-release" data-info="nondc" data-id="<?= $value['doc_release_header_id']; ?>"><i class="icon-edit"></i> approves</span>
+                        <?php } ?>
                       </td>  
                     </tr>
                   <?php endforeach ?>
@@ -72,5 +81,3 @@
 </div>
 
 <!--end-main-container-part-->
-
-
