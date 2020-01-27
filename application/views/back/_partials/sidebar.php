@@ -13,7 +13,7 @@
     <li class="submenu"> <a href="#"><i class="icon icon-file"></i> <span>Transaksi</span> <span class="label label-important">4</span></a>
       <ul>
         <li><a href="<?php echo base_url('result/doc_release_header'); ?>">Releases</a></li>
-        <li><a href="<?php echo base_url('result/notfound'); ?>">Approves</a></li>
+        <li><a href="<?php echo base_url('result/release_approves'); ?>">Approves</a></li>
         <li><a href="<?php echo base_url('result/notfound'); ?>">Distributions</a></li>
         <li><a href="<?php echo base_url('result/notfound'); ?>">Revise</a></li>
       </ul>

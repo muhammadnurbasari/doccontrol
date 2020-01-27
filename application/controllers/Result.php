@@ -551,6 +551,20 @@ class Result extends CI_Controller {
 		}
 	}
 
+	function release_approves($parameter = '')
+	{
+		if ($parameter == '') {
+			$data['title'] = 'Release Document Propose';
+			$cek_department = $this->Result_model->get_name_by_id('department', $this->session->userdata('user')[0]['department_id'], 'department_code');
+			if ($cek_department != 'IT' && $this->session->userdata('user')[0]['level_id'] != 5 ) {
+				$this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
+			}
+			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
+			$data['table'] = 'doc_release_header';
+			$this->templating('doc_release_header/index', $data);
+		}
+	}
+
 	function ajax_load($table, $action, $id = '')
     {
         if ($action ==  "add") {
