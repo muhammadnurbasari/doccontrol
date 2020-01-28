@@ -566,13 +566,13 @@ class Result extends CI_Controller {
 				$this->db->where('release_approves.approve_mr_by', NULL);
 			}
 			if ($this->session->userdata('user')[0]['level_id'] == 3) {
-				$this->db->where('release_approves.approve_dept_by', NULL);
+				$this->db->where('release_approves.approve_dept_by !=', NULL);
 				$this->db->where('release_approves.approve_dc_by', NULL);
 				$this->db->where('release_approves.approve_mr_by', NULL);
 			}
 			if ($this->session->userdata('user')[0]['level_id'] == 4) {
-				$this->db->where('release_approves.approve_dept_by', NULL);
-				$this->db->where('release_approves.approve_dc_by', NULL);
+				$this->db->where('release_approves.approve_dept_by !=', NULL);
+				$this->db->where('release_approves.approve_dc_by !=', NULL);
 				$this->db->where('release_approves.approve_mr_by', NULL);
 			}
 			$data['doc_release_headers'] = $this->db->get()->result_array();
