@@ -32,6 +32,7 @@
                 <tbody>
                   <?php 
                     $no = 1;
+                    var_dump($doc_release_headers);
                     foreach ($doc_release_headers as $key => $value):
                       // make doc_no
                       $doc_no = 'ILP-'.$this->Result_model->get_name_by_id('document', $value['doc_type_id'], 'document_code');

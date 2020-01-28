@@ -359,7 +359,7 @@ class Result extends CI_Controller {
 		if ($parameter == '') {
 			$data['title'] = 'Release Document Propose';
 			$cek_department = $this->Result_model->get_name_by_id('department', $this->session->userdata('user')[0]['department_id'], 'department_code');
-			if ($cek_department != 'IT' && $this->session->userdata('user')[0]['level_id'] != 5 ) {
+			if ($this->session->userdata('user')[0]['level_id'] != 5 ) {
 				$this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
 			}
 			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
