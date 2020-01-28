@@ -556,10 +556,26 @@ class Result extends CI_Controller {
 		if ($parameter == '') {
 			$data['title'] = 'Release Approves';
 			$cek_department = $this->Result_model->get_name_by_id('department', $this->session->userdata('user')[0]['department_id'], 'department_code');
+			$this->db->select('*');
+			$this->db->from('doc_release_header');
+			$this->db->join('release_approves', 'doc_release_header.doc_release_header_id = release_approves.doc_release_header_id');
 			if ($this->session->userdata('user')[0]['level_id'] == 2) {
-				$this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
+				$this->db->where('doc_release_header.department_id', $this->session->userdata('user')[0]['department_id']);
+				$this->db->where('release_approves.approve_dept_by', NULL);
+				$this->db->where('release_approves.approve_dc_by', NULL);
+				$this->db->where('release_approves.approve_mr_by', NULL);
 			}
-			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
+			if ($this->session->userdata('user')[0]['level_id'] == 3) {
+				$this->db->where('release_approves.approve_dept_by', NULL);
+				$this->db->where('release_approves.approve_dc_by', NULL);
+				$this->db->where('release_approves.approve_mr_by', NULL);
+			}
+			if ($this->session->userdata('user')[0]['level_id'] == 4) {
+				$this->db->where('release_approves.approve_dept_by', NULL);
+				$this->db->where('release_approves.approve_dc_by', NULL);
+				$this->db->where('release_approves.approve_mr_by', NULL);
+			}
+			$data['doc_release_headers'] = $this->db->get();
 			$data['table'] = 'release_approves';
 			$this->templating('release_approves/index', $data);
 		}
