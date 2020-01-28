@@ -295,6 +295,9 @@ class Result extends CI_Controller {
 		if ($parameter == '') {
 			$data['title'] = 'Document Categories';
 			$this->db->where('status', 1);
+			if ($this->session->userdata('user')[0]['level_id'] != 5) {
+				$this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
+			}
 			$data['doc_categorys'] = $this->Result_model->getData('doc_category');
 			$data['table'] = 'doc_category';
 			$this->templating('doc_category/index', $data);
