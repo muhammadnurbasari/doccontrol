@@ -603,14 +603,45 @@ class Result extends CI_Controller {
 			$this->templating('release_approves/index', $data);
 		} elseif ($parameter == 'approves') {
 			$approve_note = $this->input->post('approve_note');
-			$radios = $this->input->post('radios');
-			$this->form_validation->set_rules('approve_note','Approve_note','required',['required' => 'Note tidak boleh kosong']);
-			if ($this->form_validation->run() == false) {
-				echo validation_errors();
+			$doc_release_header_id = $this->input->post('doc_release_header_id');
+			$approve_status = 1;
+			$approve_date = date('Y-m-d');
+			$approve_by = $this->session->userdata('user')[0]['user_id'];
+			if ($this->session->userdata('user')[0]['level_id'] == 3) {
+				$data_detail = $this->input->post('distribution_to');
+				$data = [
+					'approve_dc_date' => $approve_date,
+					'approve_dc_note' => $approve_note,
+					'approve_dc_by' => $approve_by
+				];
+				$this->db->where('doc_release_header_id', $doc_release_header_id);
+				$this->db->update('release_approves', $data);
+				$data_insert_detail = [];
+				for ($i=0; $i < count($data_detail) ; $i++) { 
+					$arr = [
+						'doc_release_header_id' => $doc_release_header_id,
+						'department_id' => $data_detail[$i],
+					];
+					$data_insert_detail[] = $arr;
+				}
+				// var_dump($data_insert_detail);die;
+				 $this->db->insert_batch('doc_release_details', $data_insert_detail);
+				echo 1;
+			}
+			if ($this->session->userdata('user')[0]['level_id'] == 2) {
+				$data = [
+					'doc_release_header_id' => $doc_release_header_id,
+					'approve_status' => $approve_status,
+					'approve_dept_date' => $approve_date,
+					'approve_dept_note' => $approve_note,
+					'approve_dept_by' => $approve_by
+				];
+				$this->db->insert('release_approves', $data);
+				echo 1;
 			}
 		}
 	}
-
+	
 	function ajax_load($table, $action, $id = '')
     {
         if ($action ==  "add") {
@@ -618,7 +649,7 @@ class Result extends CI_Controller {
             $data['title'] = 'Add '.$table;
             $data['table'] = $table;
             $page = 'back/'.$table.'/'.$table.'-add';
-
+			
             return $this->load->view($page, $data);
         } elseif ($action == "edit") {
 			$this->_sessionguard();

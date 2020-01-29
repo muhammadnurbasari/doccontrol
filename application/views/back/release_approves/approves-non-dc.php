@@ -137,7 +137,7 @@
                  $.ajax({
                      url: '<?php echo base_url('result/release_approves/');?>'+radios,
                      type: "post",
-                     data: $('form.approve-release').serialize(),
+                     data: new FormData(this),
                      processData:false,
                      contentType:false,
                      cache:false,
@@ -147,6 +147,9 @@
                            PNotify.success({
                               text : 'Berhasil Approved'
                             });
+                            setTimeout(function() {
+                              window.location.replace('<?php echo base_url('result/release_approves'); ?>')
+                            }, 1000);
                          } else {
                            PNotify.error({
                               text : response

@@ -70,13 +70,13 @@
                     <div class="control-group">
                       <label class="control-label">Document Name :</label>
                       <div class="controls">
-                        <input type="text" class="span11" name="doc_title" value="<?= $results->doc_title; ?>">
+                        <input type="text" class="span11" name="doc_title" value="<?= $results->doc_title; ?>" readonly>
                       </div>
                     </div>
                     <div class="control-group">
                       <label class="control-label">Release Description :</label>
                       <div class="controls">
-                        <input type="text" class="span11" name="description" value="<?= $results->description; ?>">
+                        <input type="text" class="span11" name="description" value="<?= $results->description; ?>" readonly>
                       </div>
                     </div>
                     <div class="control-group doc_file">
@@ -102,7 +102,7 @@
                         $departmen = $this->Result_model->getData('department');
                         foreach ($departmen as $key => $value) { ?>
                             <label>
-                                <input type="checkbox" class="span1" name="distribution_to" />
+                                <input type="checkbox" class="span1" name="distribution_to[]" value="<?= $value['department_id']; ?>">
                                 <?= $value['department_code']; ?>
                             </label>
                       <?php } ?>
@@ -112,13 +112,13 @@
                       <label class="control-label">Choose Action</label>
                       <div class="controls">
                         <label>
-                        <input type="radio" class="span1" name="radios" />
+                        <input type="radio" class="span1" name="radios" value="approves">
                         Approve</label>
                         <label>
-                        <input type="radio" class="span1" name="radios" />
+                        <input type="radio" class="span1" name="radios" value="rejected">
                         Reject</label>
                         <label>
-                        <input type="radio" class="span1" name="radios" />
+                        <input type="radio" class="span1" name="radios" value="revised">
                         Revise</label>
                       </div>
                     </div>
@@ -138,10 +138,16 @@
         <script type="text/javascript">
           $(document).ready(function() {
 
-            $('form.edit-release').submit(function(e){
-            e.preventDefault(); 
+            $('form.approve-release').submit(function(e){
+              var radios = $("input[name=radios]:checked").val();
+              if (radios == null || radios == '') {
+                PNotify.error({
+                  text : 'Harap Pilih Action'
+                });
+              }
+              e.preventDefault(); 
                  $.ajax({
-                     url: '<?php echo base_url('result/doc_release_header/update');?>',
+                     url: '<?php echo base_url('result/release_approves/');?>'+radios,
                      type: "post",
                      data: new FormData(this),
                      processData:false,
@@ -150,17 +156,17 @@
                      async:false,
                       success: function(response){
                          if (Number(response) == Number(1)) {
-                            PNotify.success({
-                              text : 'Berhasil Update'
+                           PNotify.success({
+                              text : 'Berhasil Approved'
                             });
                             setTimeout(function() {
-                              window.location.replace('<?php echo base_url('result/doc_release_header'); ?>')
-                            }, 1200);
-                          } else {
-                            PNotify.error({
+                              window.location.replace('<?php echo base_url('result/release_approves'); ?>')
+                            }, 1000);
+                         } else {
+                           PNotify.error({
                               text : response
                             });
-                          }
+                         }
                       }
                  });
             });
