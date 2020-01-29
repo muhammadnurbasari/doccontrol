@@ -558,11 +558,30 @@ class Result extends CI_Controller {
 	{
 		if ($parameter == '') {
 			$data['title'] = 'Release Approves';
-			$cek_department = $this->Result_model->get_name_by_id('department', $this->session->userdata('user')[0]['department_id'], 'department_code');
-			$this->db->select('*');
+			$this->db->select('doc_release_header.doc_release_header_id');
+			$this->db->select('doc_release_header.doc_release_code');
+			$this->db->select('doc_release_header.doc_release_date');
+			$this->db->select('doc_release_header.doc_title');
+			$this->db->select('doc_release_header.doc_type_id');
+			$this->db->select('doc_release_header.department_id');
+			$this->db->select('doc_release_header.doc_category_id');
+			$this->db->select('doc_release_header.doc_no');
+			$this->db->select('doc_release_header.revisi_no');
+			$this->db->select('doc_release_header.description');
+			$this->db->select('doc_release_header.doc_file');
+			$this->db->select('doc_release_header.revisi_note');
+			$this->db->select('doc_release_header.expired_note');
+			$this->db->select('doc_release_header.doc_status');
+			$this->db->select('doc_release_header.created_at');
+			$this->db->select('doc_release_header.revised_at');
+			$this->db->select('doc_release_header.deleted_at');
+			$this->db->select('doc_release_header.created_by');
+			$this->db->select('doc_release_header.revised_by');
+			$this->db->select('doc_release_header.deleted_by');
 			$this->db->from('doc_release_header');
 			$this->db->join('release_approves', 'doc_release_header.doc_release_header_id = release_approves.doc_release_header_id', 'left');
 			if ($this->session->userdata('user')[0]['level_id'] == 2) {
+				$this->db->where('release_approves.doc_release_header_id', NULL);
 				$this->db->where('doc_release_header.department_id', $this->session->userdata('user')[0]['department_id']);
 				$this->db->where('release_approves.approve_dept_by', NULL);
 				$this->db->where('release_approves.approve_dc_by', NULL);
