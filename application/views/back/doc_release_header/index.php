@@ -59,7 +59,7 @@
                       <td><?php echo $value['revisi_no'] == NULL ? 0 : $value['revisi_no']; ?></td>
                       <td><?php echo $value['doc_title']; ?></td>
                       <td><?php echo $this->Result_model->get_name_by_id('user', $value['created_by'], 'user_name'); ?></td>
-                      <td><?php echo $value['doc_status'] == 0 ? '<span class="badge badge-important">Waiting</span>' : '<span class="badge badge-success">Approved</span>'; ?></td>
+                      <td><?php echo $value['doc_status'] == 0 ? '<span class="badge badge-warning">Waiting</span>' : '<span class="badge badge-success">Approved</span>'; ?></td>
                       <td>
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
                           <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i></span>
