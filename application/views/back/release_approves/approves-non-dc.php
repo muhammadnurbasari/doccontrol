@@ -70,13 +70,13 @@
                     <div class="control-group">
                       <label class="control-label">Document Name :</label>
                       <div class="controls">
-                        <input type="text" class="span11" name="doc_title" value="<?= $results->doc_title; ?>">
+                        <input type="text" class="span11" name="doc_title" value="<?= $results->doc_title; ?>" readonly>
                       </div>
                     </div>
                     <div class="control-group">
                       <label class="control-label">Release Description :</label>
                       <div class="controls">
-                        <input type="text" class="span11" name="description" value="<?= $results->description; ?>">
+                        <input type="text" class="span11" name="description" value="<?= $results->description; ?>" readonly>
                       </div>
                     </div>
                     <div class="control-group doc_file">
@@ -89,7 +89,7 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label">Approve Note</label>
+                      <label class="control-label">Note</label>
                       <div class="controls">
                         <input type="text" name="approve_note" class="span11">
                       </div>
@@ -98,20 +98,20 @@
                       <label class="control-label">Choose Action</label>
                       <div class="controls">
                         <label>
-                        <input type="radio" class="span1" name="radios" />
+                        <input type="radio" class="span1" name="radios" value="approves">
                         Approve</label>
                         <label>
-                        <input type="radio" class="span1" name="radios" />
+                        <input type="radio" class="span1" name="radios" value="rejected">
                         Reject</label>
                         <label>
-                        <input type="radio" class="span1" name="radios" />
+                        <input type="radio" class="span1" name="radios" value="revised">
                         Revise</label>
                       </div>
                     </div>
                 </div>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-success approve-release">Approve</button>
+              <button type="submit" class="btn btn-success approve-release">Submit</button>
               <a href="<?php echo base_url('result/release_approves'); ?>">
                 <button type="button" class="btn btn-danger">Cancel</button>
               </a>
@@ -126,29 +126,32 @@
         <script type="text/javascript">
           $(document).ready(function() {
 
-            $('form.edit-release').submit(function(e){
-            e.preventDefault(); 
+            $('form.approve-release').submit(function(e){
+              var radios = $("input[name=radios]:checked").val();
+              if (radios == null || radios == '') {
+                PNotify.error({
+                  text : 'Harap Pilih Action'
+                });
+              }
+              e.preventDefault(); 
                  $.ajax({
-                     url: '<?php echo base_url('result/doc_release_header/update');?>',
+                     url: '<?php echo base_url('result/release_approves/');?>'+radios,
                      type: "post",
-                     data: new FormData(this),
+                     data: $('form.approve-release').serialize(),
                      processData:false,
                      contentType:false,
                      cache:false,
                      async:false,
                       success: function(response){
                          if (Number(response) == Number(1)) {
-                            PNotify.success({
-                              text : 'Berhasil Update'
+                           PNotify.success({
+                              text : 'Berhasil Approved'
                             });
-                            setTimeout(function() {
-                              window.location.replace('<?php echo base_url('result/doc_release_header'); ?>')
-                            }, 1200);
-                          } else {
-                            PNotify.error({
+                         } else {
+                           PNotify.error({
                               text : response
                             });
-                          }
+                         }
                       }
                  });
             });

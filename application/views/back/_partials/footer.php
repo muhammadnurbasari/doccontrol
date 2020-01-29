@@ -261,7 +261,6 @@ $(document).ready(function() {
         $('body').on('click','span.approves-release', function() {
             var info = $(this).data('info');
             var id = $(this).data('id');
-            console.log(id)
             $.ajax({
             url : '<?php echo base_url('result/ajax_load_approves'); ?>'+'/'+info+'/'+id,
             success : function(response) {

@@ -580,6 +580,7 @@ class Result extends CI_Controller {
 			$this->db->select('doc_release_header.deleted_by');
 			$this->db->from('doc_release_header');
 			$this->db->join('release_approves', 'doc_release_header.doc_release_header_id = release_approves.doc_release_header_id', 'left');
+			$this->db->where('doc_release_header.doc_status', 0); // doc_status waiting
 			if ($this->session->userdata('user')[0]['level_id'] == 2) {
 				$this->db->where('release_approves.doc_release_header_id', NULL);
 				$this->db->where('doc_release_header.department_id', $this->session->userdata('user')[0]['department_id']);
@@ -600,6 +601,13 @@ class Result extends CI_Controller {
 			$data['doc_release_headers'] = $this->db->get()->result_array();
 			$data['table'] = 'release_approves';
 			$this->templating('release_approves/index', $data);
+		} elseif ($parameter == 'approves') {
+			$approve_note = $this->input->post('approve_note');
+			$radios = $this->input->post('radios');
+			$this->form_validation->set_rules('approve_note','Approve_note','required',['required' => 'Note tidak boleh kosong']);
+			if ($this->form_validation->run() == false) {
+				echo validation_errors();
+			}
 		}
 	}
 
