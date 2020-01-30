@@ -362,6 +362,7 @@ class Result extends CI_Controller {
 			if ($this->session->userdata('user')[0]['level_id'] != 5 ) {
 				$this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
 			}
+			$this->db->where('doc_status !=', 1);
 			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
 			$data['table'] = 'doc_release_header';
 			$this->templating('doc_release_header/index', $data);
@@ -607,6 +608,17 @@ class Result extends CI_Controller {
 			$approve_status = 1;
 			$approve_date = date('Y-m-d');
 			$approve_by = $this->session->userdata('user')[0]['user_id'];
+			if ($this->session->userdata('user')[0]['level_id'] == 2) {
+				$data = [
+					'doc_release_header_id' => $doc_release_header_id,
+					'approve_status' => $approve_status,
+					'approve_dept_date' => $approve_date,
+					'approve_dept_note' => $approve_note,
+					'approve_dept_by' => $approve_by
+				];
+				$this->db->insert('release_approves', $data);
+				echo 1;
+			}
 			if ($this->session->userdata('user')[0]['level_id'] == 3) {
 				$data_detail = $this->input->post('distribution_to');
 				$data = [
@@ -624,21 +636,24 @@ class Result extends CI_Controller {
 					];
 					$data_insert_detail[] = $arr;
 				}
-				// var_dump($data_insert_detail);die;
 				 $this->db->insert_batch('doc_release_details', $data_insert_detail);
 				echo 1;
 			}
-			if ($this->session->userdata('user')[0]['level_id'] == 2) {
+			if ($this->session->userdata('user')[0]['level_id'] == 4) {
 				$data = [
-					'doc_release_header_id' => $doc_release_header_id,
-					'approve_status' => $approve_status,
-					'approve_dept_date' => $approve_date,
-					'approve_dept_note' => $approve_note,
-					'approve_dept_by' => $approve_by
+					'approve_mr_date' => $approve_date,
+					'approve_mr_note' => $approve_note,
+					'approve_mr_by' => $approve_by
 				];
-				$this->db->insert('release_approves', $data);
+				$this->db->where('doc_release_header_id', $doc_release_header_id);
+				$this->db->update('release_approves', $data);
+				$this->db->where('doc_release_header_id', $doc_release_header_id);
+				$this->db->update('doc_release_header', ['doc_status' => 1]); // 1 for approves
+
+				// masih cari cari koding watermark ( belum nemu )
 				echo 1;
 			}
+			
 		}
 	}
 	
