@@ -636,6 +636,7 @@ class Result extends CI_Controller {
 					];
 					$data_insert_detail[] = $arr;
 				}
+				// insert table distribusi
 				 $this->db->insert_batch('doc_release_details', $data_insert_detail);
 				echo 1;
 			}
@@ -654,6 +655,33 @@ class Result extends CI_Controller {
 				echo 1;
 			}
 			
+		} elseif ($parameter == 'revised') {
+			$approve_note = $this->input->post('approve_note');
+			$doc_release_header_id = $this->input->post('doc_release_header_id');
+			$approve_status = 1;
+			$approve_date = date('Y-m-d');
+			$approve_by = $this->session->userdata('user')[0]['user_id'];
+			if ($this->session->userdata('user')[0]['level_id'] == 4) {
+				// delete row on table release_approve
+				$this->db->where('doc_release_header_id', $doc_release_header_id);
+				$this->db->delete('release_approves');
+				// finish delete release_approves
+
+				// update doc_release_header
+				$revisi_no = $this->Result_model->get_name_by_id('doc_release_header', $doc_release_header_id, 'revisi_no');
+				if ($revisi_no == NULL) {
+					$revisi_no = 1;
+				} else {
+					$revisi_no += 1;
+				}
+				$data = [
+					'revisi_no' => $revisi_no,
+					'revisi_note' => $approve_note,
+					'doc_status' => 2
+				];
+				$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, $data);
+				echo 1;
+			}
 		}
 	}
 	

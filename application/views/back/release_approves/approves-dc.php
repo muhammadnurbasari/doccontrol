@@ -157,7 +157,7 @@
                       success: function(response){
                          if (Number(response) == Number(1)) {
                            PNotify.success({
-                              text : 'Berhasil Approved'
+                              text : 'Berhasil '+radios
                             });
                             setTimeout(function() {
                               window.location.replace('<?php echo base_url('result/release_approves'); ?>')
