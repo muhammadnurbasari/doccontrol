@@ -114,6 +114,45 @@
         </div>
       </div>
     </div>
+    <div class="span4">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-eye-open"></i> </span>
+            <h5>Browesr statistics</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Browser</th>
+                  <th>Visits</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Chrome</td>
+                  <td>8850</td>
+                </tr>
+                <tr>
+                  <td>Firefox</td>
+                  <td>5670</td>
+                </tr>
+                <tr>
+                  <td>Internet Explorer</td>
+                  <td>4130</td>
+                </tr>
+                <tr>
+                  <td>Opera</td>
+                  <td>1574</td>
+                </tr>
+                <tr>
+                  <td>Safari</td>
+                  <td>1044</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
   </div>
 </div>
 
