@@ -552,6 +552,8 @@ class Result extends CI_Controller {
 							echo 1;
 				}
 			}
+		} elseif ($parameter == 'revise') {
+			
 		}
 	}
 
