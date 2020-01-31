@@ -213,7 +213,6 @@ $(document).ready(function() {
   // go to form edit
    $('body').on('click','span.edit', function() {
     var id = $(this).data('id');
-    console.log(id)
     $.ajax({
       url : '<?php echo base_url('result/ajax_load/'.$table.'/'); ?>edit/'+id,
       success : function(response) {

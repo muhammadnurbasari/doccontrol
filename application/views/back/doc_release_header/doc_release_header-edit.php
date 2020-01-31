@@ -1,6 +1,6 @@
 <div id="content-header">
   <div id="breadcrumb"> <a href="<?php echo base_url('result/doc_release_header'); ?>" class="tip-bottom"><i class="icon-home"></i> Release Document Propose</a> <a href="#" class="current">edit doc propose</a> </div>
-  <h1>Form Edit Doc Propose</h1>
+  <h1 class="current">Form Edit Doc Propose</h1>
 </div>
 <div class="container-fluid">
   <hr>
@@ -108,56 +108,24 @@
               </div>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-success edit-release">Update</button>
+              <button type="submit" class="btn btn-success text-uppercase edit-release">update</button>
+              <input type="hidden" name="doc_status" id="doc_status" value="<?php echo $results->doc_status; ?>">
             </div>
           </form>
         </div>
       </div>
     </div>
-    <div class="span4">
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="icon-eye-open"></i> </span>
-            <h5>Browesr statistics</h5>
-          </div>
-          <div class="widget-content nopadding">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Browser</th>
-                  <th>Visits</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Chrome</td>
-                  <td>8850</td>
-                </tr>
-                <tr>
-                  <td>Firefox</td>
-                  <td>5670</td>
-                </tr>
-                <tr>
-                  <td>Internet Explorer</td>
-                  <td>4130</td>
-                </tr>
-                <tr>
-                  <td>Opera</td>
-                  <td>1574</td>
-                </tr>
-                <tr>
-                  <td>Safari</td>
-                  <td>1044</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+    <div class="span4 information"></div>
   </div>
 </div>
 
         <script type="text/javascript">
           $(document).ready(function() {
+            // information about revise or edit
+            var doc_status = $("input#doc_status").val();
+            information(doc_status);
+            // finish information
+
             $('button[type="submit"]').prop("disabled", false);
               var a=0;
               //binds to onchange event of your input field
@@ -213,31 +181,74 @@
             }
 
             $('form.edit-release').submit(function(e){
-            e.preventDefault(); 
-                 $.ajax({
-                     url: '<?php echo base_url('result/doc_release_header/update');?>',
-                     type: "post",
-                     data: new FormData(this),
-                     processData:false,
-                     contentType:false,
-                     cache:false,
-                     async:false,
-                      success: function(response){
-                         if (Number(response) == Number(1)) {
-                            PNotify.success({
-                              text : 'Berhasil Update'
-                            });
-                            setTimeout(function() {
-                              window.location.replace('<?php echo base_url('result/doc_release_header'); ?>')
-                            }, 1200);
-                          } else {
-                            PNotify.error({
-                              text : response
-                            });
-                          }
-                      }
-                 });
+              var action = $('button[type=submit]').html();
+              e.preventDefault(); 
+                   $.ajax({
+                       url: '<?php echo base_url('result/doc_release_header'); ?>'+'/'+action,
+                       type: "post",
+                       data: new FormData(this),
+                       processData:false,
+                       contentType:false,
+                       cache:false,
+                       async:false,
+                        success: function(response){
+                           if (Number(response) == Number(1)) {
+                              PNotify.success({
+                                text : 'Berhasil '+action
+                              });
+                              setTimeout(function() {
+                                window.location.replace('<?php echo base_url('result/doc_release_header'); ?>')
+                              }, 1200);
+                            } else {
+                              PNotify.error({
+                                text : response
+                              });
+                            }
+                        }
+                   });
             });
+
+            function information(doc_status) {
+              var info = $('div.information');
+              var nav_current = $('a.current');
+              var title = $('h1.current');
+              if (Number(doc_status) == Number(0)) {
+                $('button[type=submit]').html('update');
+                info.html('');
+                nav_current.html('Edit Doc Release')
+                title.html('Form Edit Doc Release')
+              }
+              if (Number(doc_status) == Number(2)) {
+                $('button[type=submit]').html('revise');
+                var html = '';
+                html += `<div class="widget-box">
+                          <div class="widget-title"> <span class="icon"> <i class="icon-eye-open"></i> </span>
+                            <h5>Information Revise</h5>
+                          </div>
+                          <div class="widget-content nopadding">
+                            <table class="table table-bordered">
+                              <tbody>
+                                <tr>
+                                  <td>Revised By</td>
+                                  <td>`+'<?php echo $this->Result_model->get_name_by_id('user',$results->revised_by, 'user_name'); ?>'+`</td>
+                                </tr>
+                                <tr>
+                                  <td>Revised At</td>
+                                  <td>`+'<?php echo date('d F Y', strtotime($results->revised_at)); ?>'+`</td>
+                                </tr>
+                                <tr>
+                                  <td>Revised Note</td>
+                                  <td>`+'<?php echo $results->revisi_note; ?>'+`</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>`
+                info.html(html);
+                nav_current.html('Revise Doc Release')
+                title.html('Form Revise Doc Release')
+              }
+            }
 
           });
         </script>

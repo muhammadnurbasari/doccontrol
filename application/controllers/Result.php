@@ -677,7 +677,9 @@ class Result extends CI_Controller {
 				$data = [
 					'revisi_no' => $revisi_no,
 					'revisi_note' => $approve_note,
-					'doc_status' => 2
+					'doc_status' => 2,
+					'revised_at' => date('Y-m-d'),
+					'revised_by' => $approve_by
 				];
 				$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, $data);
 				echo 1;
