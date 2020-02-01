@@ -126,7 +126,9 @@
             </div>
             <div class="form-actions">
               <button type="submit" class="btn btn-success approve-release">Approve</button>
-              <button type="submit" class="btn btn-danger">Cancel</button>
+               <a href="<?php echo base_url('result/release_approves'); ?>">
+                <button type="button" class="btn btn-danger">Cancel</button>
+              </a>
             </div>
           </form>
         </div>
@@ -139,36 +141,37 @@
           $(document).ready(function() {
 
             $('form.approve-release').submit(function(e){
+              e.preventDefault(); 
               var radios = $("input[name=radios]:checked").val();
               if (radios == null || radios == '') {
                 PNotify.error({
                   text : 'Harap Pilih Action'
                 });
+              } else {
+                   $.ajax({
+                       url: '<?php echo base_url('result/release_approves/');?>'+radios,
+                       type: "post",
+                       data: new FormData(this),
+                       processData:false,
+                       contentType:false,
+                       cache:false,
+                       async:false,
+                        success: function(response){
+                           if (Number(response) == Number(1)) {
+                             PNotify.success({
+                                text : 'Berhasil '+radios
+                              });
+                              setTimeout(function() {
+                                window.location.replace('<?php echo base_url('result/release_approves'); ?>')
+                              }, 1000);
+                           } else {
+                             PNotify.error({
+                                text : response
+                              });
+                           }
+                        }
+                   });
               }
-              e.preventDefault(); 
-                 $.ajax({
-                     url: '<?php echo base_url('result/release_approves/');?>'+radios,
-                     type: "post",
-                     data: new FormData(this),
-                     processData:false,
-                     contentType:false,
-                     cache:false,
-                     async:false,
-                      success: function(response){
-                         if (Number(response) == Number(1)) {
-                           PNotify.success({
-                              text : 'Berhasil '+radios
-                            });
-                            setTimeout(function() {
-                              window.location.replace('<?php echo base_url('result/release_approves'); ?>')
-                            }, 1000);
-                         } else {
-                           PNotify.error({
-                              text : response
-                            });
-                         }
-                      }
-                 });
             });
 
           });
