@@ -794,7 +794,31 @@ class Result extends CI_Controller {
 				];
 				$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, $data);
 				echo 1;
-		} 
+		} elseif ($parameter == 'rejected') {
+			$approve_note = $this->input->post('approve_note');
+			$doc_release_header_id = $this->input->post('doc_release_header_id');
+			$approve_status = 1;
+			$approve_date = date('Y-m-d');
+			$approve_by = $this->session->userdata('user')[0]['user_id'];
+
+				$cek_approve = $this->Result_model->get_by_name('release_approves','doc_release_header_id', $doc_release_header_id);
+				if ($cek_approve) {
+					// delete row on table release_approve
+					$this->db->where('doc_release_header_id', $doc_release_header_id);
+					$this->db->delete('release_approves');
+					// finish delete release_approves
+				}
+
+				// update doc_release_header
+				$data = [
+					'revisi_note' => $approve_note,
+					'doc_status' => 3,
+					'revised_at' => $approve_date,
+					'revised_by' => $approve_by
+				];
+				$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, $data);
+				echo 1;
+		}
 	}
 	
 	function ajax_load($table, $action, $id = '')

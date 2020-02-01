@@ -72,16 +72,16 @@
                       <td><?php echo $this->Result_model->get_name_by_id('user', $value['created_by'], 'user_name'); ?></td>
                       <td>
                         <?php if ($value['doc_status'] == 0) { ?>
-                            <span><h5 class="text-danger">Waiting </h5></span>
+                            <span class="label label-warning">Waiting</span>
                         <?php } ?>
                         <?php if ($value['doc_status'] == 1) { ?>
-                            <span><h5 class="text-danger">Approved</h5></span>
+                            <span class="label label-primary">Approved</span>
                         <?php } ?>
                         <?php if ($value['doc_status'] == 2) { ?>
-                            <span><h5 class="text-danger">Revise</h5></span>
+                            <span class="label label-info">Revise</span>
                         <?php } ?>
                         <?php if ($value['doc_status'] == 3) { ?>
-                            <span><h5 class="text-danger">Rejected</h5></span>
+                            <span class="label label-important">Rejected</span>
                         <?php } ?>
                        </td>
                       <td>

@@ -96,7 +96,7 @@
                         </a>
                       </div>
                     </div>
-                    <div class="control-group">
+                    <div class="control-group file-reject">
                       <label class="control-label">Ubah Document Files</label>
                       <div class="controls">
                         <input type="file" name="doc_file" id="upload_file">
@@ -110,6 +110,7 @@
             <div class="form-actions">
               <button type="submit" class="btn btn-success text-uppercase edit-release">update</button>
               <input type="hidden" name="doc_status" id="doc_status" value="<?php echo $results->doc_status; ?>">
+              <div class="rejected"></div>
             </div>
           </form>
         </div>
@@ -247,6 +248,38 @@
                 info.html(html);
                 nav_current.html('Revise Doc Release')
                 title.html('Form Revise Doc Release')
+              }
+              if (Number(doc_status) == Number(3)) {
+                $('button[type=submit]').slideUp('slow');
+                $('div.file-reject').slideUp('slow');
+                $('div.rejected').html('<span class="label label-important"><h6>STATUS : REJECTED</h6></span>');
+                var html = '';
+                html += `<div class="widget-box">
+                          <div class="widget-title"> <span class="icon"> <i class="icon-eye-open"></i> </span>
+                            <span class="label label-important">STATUS : REJECTED</span>
+                          </div>
+                          <div class="widget-content nopadding">
+                            <table class="table table-bordered">
+                              <tbody>
+                                <tr>
+                                  <td>Rejected By</td>
+                                  <td>`+'<?php echo $this->Result_model->get_name_by_id('user',$results->revised_by, 'user_name'); ?>'+`</td>
+                                </tr>
+                                <tr>
+                                  <td>Rejected At</td>
+                                  <td>`+'<?php echo date('d F Y', strtotime($results->revised_at)); ?>'+`</td>
+                                </tr>
+                                <tr>
+                                  <td>Rejected Note</td>
+                                  <td>`+'<?php echo $results->revisi_note; ?>'+`</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>`
+                info.html(html);
+                nav_current.html('Rejected Doc Release')
+                title.html('Information Rejected Doc Release')
               }
             }
 
