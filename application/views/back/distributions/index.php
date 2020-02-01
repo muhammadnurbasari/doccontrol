@@ -1,5 +1,65 @@
 
+<style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
 <!--main-container-part-->
 <div id="content" class="yield">
 <!--breadcrumbs-->
@@ -27,7 +87,8 @@
                     <th>Approve MR By</th>
                     <th>Approve Date</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <th>Document Files</th>
+                    <th class="action">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -86,7 +147,10 @@
                             echo $status = '<span class="label label-important status">No Confirmed</span>';
                           }
                          ?>
-                      <td>
+                      <td><a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
+                          <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> show & download</span>
+                        </a></td>
+                      <td class="action">
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
                           <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i></span>
                         </a>
@@ -115,7 +179,10 @@
     get_status(status);
 
     function get_status(status) {
-      console.log(status);
+      if (status == 'No Confirmed') {
+        $('td.action').html(`<h6>click to confirm</h6><label class="switch"><input type="checkbox"><span class="slider round"></span></label>`);
+        $('th.action').html('click to confirmed');
+      }
     }
   })
 </script>
