@@ -102,6 +102,7 @@
 <script src="<?= base_url('assets/'); ?>js/matrix.chat.js"></script> 
 <!-- <script src="<?= base_url('assets/'); ?>js/bootstrap-wysihtml5.js"></script>  -->
 <script src="<?= base_url('assets/'); ?>notify/PNotify.js"></script>  
+<script src="<?= base_url('assets/'); ?>toggle/bootstrap4-toggle.min.js"></script>
 
 <script type="text/javascript">
 

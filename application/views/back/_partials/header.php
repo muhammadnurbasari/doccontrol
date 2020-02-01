@@ -15,7 +15,9 @@
 <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/jquery.gritter.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 <link href="<?= base_url('assets/'); ?>notify/PNotifyBrightTheme.css" rel="stylesheet" />
+<link href="<?= base_url('assets/'); ?>toggle/bootstrap4-toggle.min.css" rel="stylesheet" />
 <script src="<?= base_url('assets/'); ?>js/jquery-3.4.1.min.js"></script>
+
 </head>
 <body>
 <style type="text/css">

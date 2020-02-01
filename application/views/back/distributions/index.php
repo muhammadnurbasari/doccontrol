@@ -87,7 +87,6 @@ input:checked + .slider:before {
                     <th>Approve MR By</th>
                     <th>Approve Date</th>
                     <th>Status</th>
-                    <th>Document Files</th>
                     <th class="action">Action</th>
                   </tr>
                 </thead>
@@ -147,9 +146,8 @@ input:checked + .slider:before {
                             echo $status = '<span class="label label-important status">No Confirmed</span>';
                           }
                          ?>
-                      <td><a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
-                          <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> show & download</span>
-                        </a></td>
+                         <input type="hidden" class="doc_id" value="<?php echo $value['doc_release_header_id']; ?>">
+                      </td>
                       <td class="action">
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
                           <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i></span>
@@ -180,10 +178,11 @@ input:checked + .slider:before {
 
     function get_status(status) {
       if (status == 'No Confirmed') {
-        $('td.action').html(`<h6>click to confirm</h6><label class="switch"><input type="checkbox"><span class="slider round"></span></label>`);
-        $('th.action').html('click to confirmed');
+        $('td.action').html(`<strong>CLICK TO CONFIRM</strong><label class="switch"><input type="checkbox" class="toggle_confirm"><span class="slider round"></span></label>`);
       }
     }
+
+    
   })
 </script>
 
