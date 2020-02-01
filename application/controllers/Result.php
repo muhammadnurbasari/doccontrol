@@ -553,7 +553,113 @@ class Result extends CI_Controller {
 				}
 			}
 		} elseif ($parameter == 'revise') {
-			
+			// revise for staff department
+			if (!empty($_FILES['doc_file']['name'])) {
+				
+				$doc_release_header_id = $this->input->post('doc_release_header_id');
+				$doc_release_code = $this->input->post('doc_release_code');
+				$doc_release_date = date('Y-m-d', strtotime($this->input->post('doc_release_date')));
+				$doc_title = $this->input->post('doc_title');
+				$doc_type_id = explode('/', $this->input->post('doc_type_id'))[0];
+				$department_id = $this->session->userdata('user')[0]['department_id'];
+				$doc_category_id = $this->input->post('doc_category_id');
+				$doc_no = $this->input->post('doc_no');
+				$description = $this->input->post('description');
+				$expired_note = NULL;
+				$doc_status = 0;
+				$deleted_at = NULL;
+				$deleted_by = NULL;
+				$this->form_validation->set_rules('doc_title','Doc_title','required',['required' => 'Document Name tidak boleh kosong']);
+				$this->form_validation->set_rules('doc_type_id','Doc_type_id','required',['required' => 'Document tidak boleh kosong']);
+				$this->form_validation->set_rules('doc_category_id','Doc_category_id','required',['required' => 'Doc Category tidak boleh kosong']);
+				$this->form_validation->set_rules('description','Description','required',['required' => 'Release Description tidak boleh kosong']);
+				if ($this->form_validation->run() == false) {
+					echo validation_errors();
+				} else {
+						$config['overwrite']            = true;
+						$config['max_size']             = 3000;
+						$config['upload_path']= "./assets/files/release/";
+						$config['allowed_types']        = 'pdf';
+						$config['overwrite']            = true;
+						 
+						$this->load->library('upload',$config);
+						if($this->upload->do_upload('doc_file')){
+				 
+							$data = [
+								'doc_release_code' => $doc_release_code,
+								'doc_release_date' => $doc_release_date,
+								'doc_title' => $doc_title,
+								'doc_type_id' => $doc_type_id,
+								'department_id' => $department_id,
+								'doc_category_id' => $doc_category_id,
+								'doc_no' => $doc_no,
+								'description' => $description,
+								'doc_file' => $this->upload->data('file_name'),
+								'expired_note' => $expired_note,
+								'doc_status' => $doc_status,
+								'deleted_at' => $deleted_at,
+								'deleted_by' => $deleted_by
+							];
+							$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, $data);
+
+							// delete rows table doc_release_details
+							$this->db->where('doc_release_header_id', $doc_release_header_id);
+							$this->db->delete('doc_release_details');
+							// finish delete rows
+							echo 1;
+							
+						} else {
+							$error = array('error' => $this->upload->display_errors());
+							
+							echo $error['error'];
+						}
+				}
+			} else {
+				$doc_release_header_id = $this->input->post('doc_release_header_id');
+				$doc_release_code = $this->input->post('doc_release_code');
+				$doc_release_date = date('Y-m-d', strtotime($this->input->post('doc_release_date')));
+				$doc_title = $this->input->post('doc_title');
+				$doc_type_id = explode('/', $this->input->post('doc_type_id'))[0];
+				$department_id = $this->session->userdata('user')[0]['department_id'];
+				$doc_category_id = $this->input->post('doc_category_id');
+				$doc_no = $this->input->post('doc_no');
+				$description = $this->input->post('description');
+				$expired_note = NULL;
+				$doc_status = 0;
+				$deleted_at = NULL;
+				$deleted_by = NULL;
+				$this->form_validation->set_rules('doc_title','Doc_title','required',['required' => 'Document Name tidak boleh kosong']);
+				$this->form_validation->set_rules('doc_type_id','Doc_type_id','required',['required' => 'Document tidak boleh kosong']);
+				$this->form_validation->set_rules('doc_category_id','Doc_category_id','required',['required' => 'Doc Category tidak boleh kosong']);
+				$this->form_validation->set_rules('description','Description','required',['required' => 'Release Description tidak boleh kosong']);
+				if ($this->form_validation->run() == false) {
+					echo validation_errors();
+				} else {
+				 
+							$data = [
+								'doc_release_code' => $doc_release_code,
+								'doc_release_date' => $doc_release_date,
+								'doc_title' => $doc_title,
+								'doc_type_id' => $doc_type_id,
+								'department_id' => $department_id,
+								'doc_category_id' => $doc_category_id,
+								'doc_no' => $doc_no,
+								'description' => $description,
+								'doc_file' => $this->upload->data('file_name'),
+								'expired_note' => $expired_note,
+								'doc_status' => $doc_status,
+								'deleted_at' => $deleted_at,
+								'deleted_by' => $deleted_by
+							];
+							$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, $data);
+
+							// delete rows table doc_release_details
+							$this->db->where('doc_release_header_id', $doc_release_header_id);
+							$this->db->delete('doc_release_details');
+							// finish delete rows
+							echo 1;
+				}
+			}
 		}
 	}
 
@@ -663,11 +769,14 @@ class Result extends CI_Controller {
 			$approve_status = 1;
 			$approve_date = date('Y-m-d');
 			$approve_by = $this->session->userdata('user')[0]['user_id'];
-			if ($this->session->userdata('user')[0]['level_id'] == 4) {
-				// delete row on table release_approve
-				$this->db->where('doc_release_header_id', $doc_release_header_id);
-				$this->db->delete('release_approves');
-				// finish delete release_approves
+
+				$cek_approve = $this->Result_model->get_by_name('release_approves','doc_release_header_id', $doc_release_header_id);
+				if ($cek_approve) {
+					// delete row on table release_approve
+					$this->db->where('doc_release_header_id', $doc_release_header_id);
+					$this->db->delete('release_approves');
+					// finish delete release_approves
+				}
 
 				// update doc_release_header
 				$revisi_no = $this->Result_model->get_name_by_id('doc_release_header', $doc_release_header_id, 'revisi_no');
@@ -680,13 +789,12 @@ class Result extends CI_Controller {
 					'revisi_no' => $revisi_no,
 					'revisi_note' => $approve_note,
 					'doc_status' => 2,
-					'revised_at' => date('Y-m-d'),
+					'revised_at' => $approve_date,
 					'revised_by' => $approve_by
 				];
 				$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, $data);
 				echo 1;
-			}
-		}
+		} 
 	}
 	
 	function ajax_load($table, $action, $id = '')
