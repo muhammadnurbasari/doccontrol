@@ -8,8 +8,7 @@
   </div>
 <!--End-breadcrumbs-->
 <?php //var_dump($this->session->userdata()); ?>
-  <div class="container-fluid">   
-      <h3><span class="badge tombol badge-info add">add <?php echo explode('_', $table)[0].' '.explode('_', $table)[1]; ?></span></h3>
+  <div class="container-fluid">
       <div class="row-fluid">
         <div class="widget-box">
           <div class="widget-title bg_lg"><span class="icon"><i class="icon-th-large"></i></span>
@@ -23,9 +22,10 @@
                     <th>Propose No</th>
                     <th>Propose Date</th>
                     <th>Document No</th>
-                    <th>No Revisi</th>
                     <th>Document Name</th>
                     <th>Created By</th>
+                    <th>Approve MR By</th>
+                    <th>Approve Date</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -67,15 +67,21 @@
                       <td><?php echo $value['doc_release_code']; ?></td>
                       <td><?php echo $value['doc_release_date']; ?></td>
                       <td><?php echo $doc_no; ?></td>
-                      <td><?php echo $value['revisi_no'] == NULL ? 0 : $value['revisi_no']; ?></td>
                       <td><?php echo $value['doc_title']; ?></td>
                       <td><?php echo $this->Result_model->get_name_by_id('user', $value['created_by'], 'user_name'); ?></td>
+                      <td>
+                        <?php 
+                        $user_id = $this->Result_model->get_name_by_name('release_approves','doc_release_header_id', $value['doc_release_header_id'], 'approve_mr_by');
+                        echo $this->Result_model->get_name_by_id('user', $user_id, 'user_name');
+                        ?>
+                      </td>
+                      <td><?php echo date('d F Y', strtotime($value['doc_release_date'])); ?></td>
                       <td>
                         <?php if ($value['doc_status'] == 0) { ?>
                             <span class="label label-warning">Waiting</span>
                         <?php } ?>
                         <?php if ($value['doc_status'] == 1) { ?>
-                            <span class="label label-primary">Approved</span>
+                            <span class="label label-info">Approved</span>
                         <?php } ?>
                         <?php if ($value['doc_status'] == 2) { ?>
                             <span class="label label-info">Revise</span>

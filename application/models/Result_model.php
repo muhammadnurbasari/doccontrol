@@ -33,6 +33,19 @@ class Result_model extends CI_model
 		return $this->db->get($table)->row()->$name;
 	}
 
+	function get_name_by_name($table, $name, $name_value, $get = '')
+	{
+		if ($get == '') {
+			$this->db->select('*');
+			$this->db->where($name, $name_value);
+			return $this->db->get($table)->row();
+		} else {
+			$this->db->select($get);
+			$this->db->where($name, $name_value);
+			return $this->db->get($table)->row()->$get;
+		}
+	}
+
 	function get_max_by_id($table)
 	{
 		$this->db->select_max($table.'_id', 'id');
