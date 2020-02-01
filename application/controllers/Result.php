@@ -787,14 +787,14 @@ class Result extends CI_Controller {
 				}
 
 				// update doc_release_header
-				$revisi_no = $this->Result_model->get_name_by_id('doc_release_header', $doc_release_header_id, 'revisi_no');
-				if ($revisi_no == NULL) {
-					$revisi_no = 1;
-				} else {
-					$revisi_no += 1;
-				}
+				// $revisi_no = $this->Result_model->get_name_by_id('doc_release_header', $doc_release_header_id, 'revisi_no');
+				// if ($revisi_no == NULL) {
+				// 	$revisi_no = 1;
+				// } else {
+				// 	$revisi_no += 1;
+				// }
 				$data = [
-					'revisi_no' => $revisi_no,
+					// 'revisi_no' => $revisi_no,
 					'revisi_note' => $approve_note,
 					'doc_status' => 2,
 					'revised_at' => $approve_date,

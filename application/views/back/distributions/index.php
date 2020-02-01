@@ -182,7 +182,7 @@ input:checked + .slider:before {
       }
     }
 
-    
+    // $('input.toggle_confirm').
   })
 </script>
 
