@@ -76,20 +76,16 @@
                         ?>
                       </td>
                       <td><?php echo date('d F Y', strtotime($value['doc_release_date'])); ?></td>
-                      <td>
-                        <?php if ($value['doc_status'] == 0) { ?>
-                            <span class="label label-warning">Waiting</span>
-                        <?php } ?>
-                        <?php if ($value['doc_status'] == 1) { ?>
-                            <span class="label label-info">Approved</span>
-                        <?php } ?>
-                        <?php if ($value['doc_status'] == 2) { ?>
-                            <span class="label label-info">Revise</span>
-                        <?php } ?>
-                        <?php if ($value['doc_status'] == 3) { ?>
-                            <span class="label label-important">Rejected</span>
-                        <?php } ?>
-                       </td>
+                      <td class="status">
+                        <?php 
+                          $doc_release_header_id = $value['doc_release_header_id'];
+                          $cek_distribution = $this->db->query("SELECT * FROM doc_release_details RIGHT JOIN distributions ON doc_release_details.doc_release_details_id = distributions.doc_release_details_id WHERE doc_release_details.doc_release_header_id = '$doc_release_header_id'")->result_array();
+                          if ($cek_distribution) {
+                            echo $status = '<span class="label label-info status">Confirmed</span>';
+                          } else {
+                            echo $status = '<span class="label label-important status">No Confirmed</span>';
+                          }
+                         ?>
                       <td>
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
                           <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i></span>
@@ -111,5 +107,41 @@
 </div>
 
 <!--end-main-container-part-->
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    var status = $('td.status span.status').html();
+    get_status(status);
+
+    function get_status(status) {
+      console.log(status);
+    }
+  })
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
