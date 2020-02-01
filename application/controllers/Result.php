@@ -660,6 +660,14 @@ class Result extends CI_Controller {
 							echo 1;
 				}
 			}
+		} elseif ($parameter == 'delete') {
+			$doc_release_header_id = $this->input->post('doc_release_header_id');
+			$this->db->where('doc_release_header_id', $doc_release_header_id);
+			$this->db->delete('doc_release_header');
+
+			$this->db->where('doc_release_header_id', $doc_release_header_id);
+			$this->db->delete('doc_release_details');
+			echo 1;
 		}
 	}
 

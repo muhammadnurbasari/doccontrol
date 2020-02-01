@@ -15,10 +15,12 @@
             <div class="modal-footer">
               <form action="<?= base_url('result/'.$table.'/delete'); ?>" method="post" class="delete">
                 <input type="hidden" name="<?php echo $table; ?>_id" id="id">
-                <button type="button" class="btn btn-danger hapus" data-dismiss="modal" aria-label="Close"><i class="icon-trash"></i></button>
-                <button class="btn btn-warning " type="button" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
+                <div class="form-actions">
+                  <button type="button" class="btn btn-danger hapus" data-dismiss="modal" aria-label="Close"><i class="icon-trash"></i></button>
+                  <button class="btn btn-warning " type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
               </form>
             </div>
           </div>
