@@ -829,7 +829,7 @@ class Result extends CI_Controller {
 		}
 	}
 
-	function distributions($parameter='')
+	function distributions($parameter='', $parameter2 = '')
 	{
 		if ($parameter == '') {
 			$data['title'] = 'Distributions';
@@ -841,6 +841,15 @@ class Result extends CI_Controller {
 			$data['doc_release_headers'] = $this->db->get()->result_array();
 			$data['table'] = 'doc_release_header';
 			$this->templating('distributions/index', $data);
+		} elseif ($parameter == 'confirmed') {
+			$doc_release_details_id = $parameter2;
+			$data = [
+				'doc_release_details_id' => $doc_release_details_id,
+				'confirm_by' => $this->session->userdata('user')[0]['user_id'],
+				'confirm_date' => date('Y-m-d')
+			];
+			$this->db->insert('distributions', $data);
+			echo "Confirmed Doc Distribution Success";
 		}
 	}
 
@@ -855,7 +864,7 @@ class Result extends CI_Controller {
 			$data['doc_release_headers'] = $this->db->get()->result_array();
 			$data['table'] = 'doc_release_header';
 			$this->templating('master_doc_list/index', $data);
-		}	
+		} 
 	}
 	
 	function ajax_load($table, $action, $id = '')

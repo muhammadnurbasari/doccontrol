@@ -146,16 +146,12 @@ input:checked + .slider:before {
                             echo $status = '<span class="label label-important status">No Confirmed</span>';
                           }
                          ?>
-                         <input type="hidden" class="doc_id" value="<?php echo $value['doc_release_header_id']; ?>">
+                         <input type="hidden" class="doc_details_id" value="<?php echo $value['doc_release_details_id']; ?>">
                       </td>
                       <td class="action">
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
-                          <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i></span>
+                          <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> view & download</span>
                         </a>
-                        <span class="badge tombol badge-success edit" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-edit"></i></span>
-                        <?php if ($value['doc_status'] == 3) { ?>
-                          <span class="badge tombol badge-important hapus" data-toggle="modal" data-target="#deletemodal" data-id="<?php echo $value[$table.'_id']; ?>" data-name="<?php echo $value['doc_release_code']; ?>"><i class="icon-trash"></i></span>
-                        <?php } ?>
                       </td>  
                     </tr>
                   <?php endforeach ?>
@@ -172,19 +168,33 @@ input:checked + .slider:before {
 
 <script type="text/javascript">
   $(document).ready(function() {
+    
+    $('td.status span.status').each(function(index, value) {
+      var action = $(this).closest('tr').find('td.action');
+      get_status($(this).html(), action);
+    })
 
-    var status = $('td.status span.status').html();
-    get_status(status);
-
-    function get_status(status) {
+    function get_status(status, action) {
       if (status == 'No Confirmed') {
-        $('td.action').html(`<strong>CLICK TO CONFIRM</strong><label class="switch"><input type="checkbox" class="toggle_confirm"><span class="slider round"></span></label>`);
+        action.html(`<strong>CLICK TO CONFIRM</strong><label class="switch"><input type="checkbox" class="toggle_confirm"><span class="slider round"></span></label>`);
       }
     }
 
     $('body').on('click','input.toggle_confirm', function() {
-      
+      var doc_details_id = $(this).closest('tr').find('input.doc_details_id').val();
+      $.ajax({
+        url : '<?php echo base_url('result/distributions/confirmed') ?>'+'/'+doc_details_id,
+        success : function(response) {
+          PNotify.success({
+            text : response
+          })
+          setTimeout(function() {
+            window.location.replace('<?php echo base_url('result/distributions'); ?>')
+          }, 1200)
+        }
+      })
     })
+
   })
 </script>
 
