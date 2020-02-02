@@ -843,6 +843,20 @@ class Result extends CI_Controller {
 			$this->templating('distributions/index', $data);
 		}
 	}
+
+	function master_doc_list($parameter='')
+	{
+		if ($parameter == '') {
+			$data['title'] = 'Master Doc List';
+			$this->db->select('*');
+			$this->db->from('doc_release_header');
+			$this->db->join('doc_release_details', 'doc_release_header.doc_release_header_id = doc_release_details.doc_release_header_id', 'left');
+			$this->db->where('doc_release_details.department_id', $this->session->userdata('user')[0]['department_id']);
+			$data['doc_release_headers'] = $this->db->get()->result_array();
+			$data['table'] = 'doc_release_header';
+			$this->templating('master_doc_list/index', $data);
+		}	
+	}
 	
 	function ajax_load($table, $action, $id = '')
     {
