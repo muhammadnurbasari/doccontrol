@@ -182,7 +182,9 @@ input:checked + .slider:before {
       }
     }
 
-    // $('input.toggle_confirm').
+    $('body').on('click','input.toggle_confirm', function() {
+      
+    })
   })
 </script>
 
