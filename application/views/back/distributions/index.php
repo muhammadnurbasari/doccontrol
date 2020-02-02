@@ -152,7 +152,7 @@ input:checked + .slider:before {
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
                           <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> view & download</span>
                         </a>
-                        <span class="badge tombol badge-success" data-toggle="modal" data-target="#modalDetailDistributions" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-edit"></i> details</span>
+                        <span class="badge tombol badge-success details-distributions" data-toggle="modal" data-target="#modalDetailDistributions" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-edit"></i> details</span>
                       </td>  
                     </tr>
                   <?php endforeach ?>
@@ -203,6 +203,54 @@ input:checked + .slider:before {
             window.location.replace('<?php echo base_url('result/distributions'); ?>')
           }, 1200)
         }
+      })
+    })
+
+    // ajax modal
+    $('.details-distributions').each(function(index, value) {
+      $(this).click(function() {
+        var id = $(this).data('id');
+        $.ajax({
+          url : '<?php echo base_url('result/distributions/details') ?>'+'/'+id,
+          success : function(response) {
+            var result = JSON.parse(response);
+            var confirm = [];
+            for (var i = 0; i < result[1].length; i++) {
+              confirm.push(result[1][i].department_id);
+            }
+            var html = `<div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-time"></i></span>
+            <h5>To Do List</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Department</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>`;
+            for (var i = 0; i < result[0].length; i++) {
+              if (jQuery.inArray(result[0][i].department_id, confirm) != -1) {
+                html += `<tr>
+                  <td class="taskDesc">`+result[0][i].department_code+`</td>
+                  <td class="taskStatus"><span class="in-progress">CONFIRMED</span></td>
+                </tr>`
+              } else {
+                html += `<tr>
+                    <td class="taskDesc">`+result[0][i].department_code+`</td>
+                    <td class="taskStatus"><span class="pending">NO CONFIRMED</span></td>
+                  </tr>`
+              }
+            }
+            html += `</tbody>
+            </table>
+          </div>
+        </div>`
+            $('.modal-body').html(html)
+          }
+        })
       })
     })
 

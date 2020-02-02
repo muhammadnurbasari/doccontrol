@@ -850,6 +850,34 @@ class Result extends CI_Controller {
 			];
 			$this->db->insert('distributions', $data);
 			echo "Confirmed Doc Distribution Success";
+		} elseif ($parameter == 'details') {
+			$doc_release_header_id = $parameter2;
+			$cek_distribution = $this->db->query("SELECT doc_release_details.department_id FROM doc_release_details RIGHT JOIN distributions ON doc_release_details.doc_release_details_id = distributions.doc_release_details_id WHERE doc_release_details.doc_release_header_id = '$doc_release_header_id'")->result_array();
+			$cek_all_department = $this->db->query("SELECT doc_release_details.department_id FROM doc_release_details WHERE doc_release_details.doc_release_header_id = '$doc_release_header_id'")->result_array();
+
+			foreach ($cek_all_department as $key => $value) :
+				$arr_department = [
+					'department_id' => $value['department_id'],
+					'department_code' => $this->Result_model->get_name_by_id('department', $value['department_id'], 'department_code')
+				];
+
+				$total_distribusi_department[] = $arr_department;
+			endforeach;
+
+			foreach ($cek_distribution as $key => $value) :
+				$arr_department_confirm = [
+					'department_id' => $value['department_id'],
+					'department_code' => $this->Result_model->get_name_by_id('department', $value['department_id'], 'department_code')
+				];
+
+				$total_distribusi_department_confirm[] = $arr_department_confirm;
+			endforeach;
+
+			$result = [];
+			$result[] = $total_distribusi_department;
+			$result[] = $total_distribusi_department_confirm;
+
+			echo json_encode($result);
 		}
 	}
 
