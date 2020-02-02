@@ -1,4 +1,3 @@
-
 <style>
 .switch {
   position: relative;
@@ -139,7 +138,8 @@ input:checked + .slider:before {
                       <td class="status">
                         <?php 
                           $doc_release_header_id = $value['doc_release_header_id'];
-                          $cek_distribution = $this->db->query("SELECT * FROM doc_release_details RIGHT JOIN distributions ON doc_release_details.doc_release_details_id = distributions.doc_release_details_id WHERE doc_release_details.doc_release_header_id = '$doc_release_header_id'")->result_array();
+                          $department_id = $value['department_id'];
+                          $cek_distribution = $this->db->query("SELECT * FROM doc_release_details RIGHT JOIN distributions ON doc_release_details.doc_release_details_id = distributions.doc_release_details_id WHERE doc_release_details.doc_release_header_id = '$doc_release_header_id' AND doc_release_details.department_id = '$department_id'")->result_array();
                           if ($cek_distribution) {
                             echo $status = '<span class="label label-info status">Confirmed</span>';
                           } else {
@@ -152,6 +152,7 @@ input:checked + .slider:before {
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
                           <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> view & download</span>
                         </a>
+                        <span class="badge tombol badge-success" data-toggle="modal" data-target="#modalDetailDistributions" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-edit"></i> details</span>
                       </td>  
                     </tr>
                   <?php endforeach ?>
@@ -164,6 +165,16 @@ input:checked + .slider:before {
   </div>  
 </div>
 
+    <div class="modal fade" id="modalDetailDistributions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirm Distributions Details</h5>
+            </div>
+            <div class="modal-body"></div>
+          </div>
+        </div>
+      </div>
 <!--end-main-container-part-->
 
 <script type="text/javascript">
@@ -176,7 +187,7 @@ input:checked + .slider:before {
 
     function get_status(status, action) {
       if (status == 'No Confirmed') {
-        action.html(`<strong>CLICK TO CONFIRM</strong><label class="switch"><input type="checkbox" class="toggle_confirm"><span class="slider round"></span></label>`);
+        action.html(`<strong>CLICK TO CONFIRM</strong><br><label class="switch"><input type="checkbox" class="toggle_confirm"><span class="slider round"></span></label>`);
       }
     }
 
