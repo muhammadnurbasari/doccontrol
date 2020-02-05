@@ -835,7 +835,27 @@ class Result extends CI_Controller {
 	{
 		if ($parameter == '') {
 			$data['title'] = 'Distributions';
-			$this->db->select('*');
+			$this->db->select('doc_release_header.doc_release_header_id');
+			$this->db->select('doc_release_header.doc_release_code');
+			$this->db->select('doc_release_header.doc_release_date');
+			$this->db->select('doc_release_header.doc_title');
+			$this->db->select('doc_release_header.doc_type_id');
+			$this->db->select('doc_release_header.department_id');
+			$this->db->select('doc_release_header.doc_category_id');
+			$this->db->select('doc_release_header.doc_no');
+			$this->db->select('doc_release_header.revisi_no');
+			$this->db->select('doc_release_header.description');
+			$this->db->select('doc_release_header.doc_file');
+			$this->db->select('doc_release_header.revisi_note');
+			$this->db->select('doc_release_header.expired_note');
+			$this->db->select('doc_release_header.doc_status');
+			$this->db->select('doc_release_header.created_at');
+			$this->db->select('doc_release_header.revised_at');
+			$this->db->select('doc_release_header.deleted_at');
+			$this->db->select('doc_release_header.created_by');
+			$this->db->select('doc_release_header.revised_by');
+			$this->db->select('doc_release_header.deleted_by');
+			$this->db->select('doc_release_details.doc_release_details_id');
 			$this->db->from('doc_release_header');
 			$this->db->join('doc_release_details', 'doc_release_header.doc_release_header_id = doc_release_details.doc_release_header_id', 'left');
 			$this->db->where('doc_release_header.doc_status', 1);
