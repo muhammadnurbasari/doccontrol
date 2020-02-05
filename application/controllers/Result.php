@@ -969,7 +969,7 @@ class Result extends CI_Controller {
 			}
 		} elseif ($parameter == 'destroyed') {
 			$doc_release_header_id = $this->input->post('doc_release_header_id');
-			$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 5]); // destroyed
+			$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 5, 'deleted_by' => $this->session->userdata('user')[0]['user_id']]); // destroyed
 			echo 1;
 		}
 	}
@@ -986,6 +986,28 @@ class Result extends CI_Controller {
 			$data['table'] = 'doc_release_header';
 			$this->templating('master_doc_list/index', $data);
 		} 
+	}
+
+	function expired($parameter='')
+	{
+		if ($parameter == '') {
+			$data['title'] = 'Expired';
+			$this->db->where('doc_status', 4);
+			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
+			$data['table'] = 'doc_release_header';
+			$this->templating('expired/index', $data);
+		}
+	}
+
+	function destroyed($parameter='')
+	{
+		if ($parameter == '') {
+			$data['title'] = 'Expired';
+			$this->db->where('doc_status', 5);
+			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
+			$data['table'] = 'doc_release_header';
+			$this->templating('destroyed/index', $data);
+		}
 	}
 	
 	function ajax_load($table, $action, $id = '')

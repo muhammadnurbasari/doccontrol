@@ -21,8 +21,8 @@
     <li class="submenu"> <a href="#"><i class="icon icon-info-sign"></i> <span>Arsip</span> <span class="label label-important arsip">4</span></a>
       <ul>
         <li style="display : none;" class="master_doc_list"><a href="<?php echo base_url('result/master_doc_list'); ?>">Master Doc List</a></li>
-        <li style="display : none;" class="expired_doc"><a href="<?php echo base_url('result/notfound'); ?>">Expired Doc</a></li>
-        <li style="display : none;" class="destroyed"><a href="<?php echo base_url('result/notfound'); ?>">Destroyed</a></li>
+        <li style="display : none;" class="expired_doc"><a href="<?php echo base_url('result/expired'); ?>">Expired Doc</a></li>
+        <li style="display : none;" class="destroyed"><a href="<?php echo base_url('result/destroyed'); ?>">Destroyed</a></li>
         <li style="display : none;" class="external_doc"><a href="<?php echo base_url('result/notfound'); ?>">External Doc</a></li>
       </ul>
     </li>
