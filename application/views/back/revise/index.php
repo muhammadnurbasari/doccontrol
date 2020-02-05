@@ -88,7 +88,7 @@
                           <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> details</span>
                         </a>
                         <span class="badge tombol badge-success revise" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-edit"></i> revise</span>
-                        <span class="badge tombol badge-important destroyed" data-toggle="modal" data-target="#deletemodal" data-id="<?php echo $value[$table.'_id']; ?>" data-name="<?php echo $value['doc_release_code']; ?>"><i class="icon-trash"></i> destroyed</span>
+                        <span class="badge tombol badge-important destroyed" data-toggle="modal" data-target="#destroyed" data-id="<?php echo $value[$table.'_id']; ?>" data-name="<?php echo $value['doc_release_code']; ?>"><i class="icon-trash"></i> destroyed</span>
                       </td>  
                     </tr>
                   <?php endforeach ?>
@@ -100,6 +100,28 @@
     <hr/>
   </div>  
 </div>
+
+<!-- modal destroyed -->
+        <div class="modal fade" id="destroyed" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"></h5>
+            </div>
+            <div class="modal-footer">
+              <form action="<?= base_url('result/revise/destroyed'); ?>" method="post" class="destroyed">
+                <input type="hidden" name="<?php echo $table; ?>_id" id="id">
+                <div class="form-actions">
+                  <button type="button" class="btn btn-danger destroyed" data-dismiss="modal" aria-label="Close"><i class="icon-trash"></i></button>
+                  <button class="btn btn-warning " type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
 <!--end-main-container-part-->
 
@@ -114,6 +136,33 @@
         }
       })
     })
+
+    $('body').on('click','span.destroyed', function() {
+      var id  = $(this).data('id');
+      var name  = $(this).data('name');
+
+      $("div.modal-header .modal-title").html('Yakin Musnahkan Document '+name+' ?');
+      $("form input#id").val(id);
+    });
+
+    $('body').on('click','button.destroyed', function() {
+      var form = $('form.destroyed');
+      var here = $(this);
+      $.ajax({
+        url : form.attr('action'),
+        data : form.serialize(),
+        type : 'post',
+        success : function(response) {
+            PNotify.error({
+              text : 'Proses destroyed data Berhasil'
+            });
+            setTimeout(function() {
+              window.location.replace('<?php echo base_url('result/revise'); ?>')
+            }, 1000);
+        }
+      });
+    });
+
   })
 </script>
 

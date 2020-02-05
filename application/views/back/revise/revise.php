@@ -215,7 +215,7 @@
                                 text : 'Berhasil '+action
                               });
                               setTimeout(function() {
-                                window.location.replace('<?php echo base_url('result/doc_release_header'); ?>')
+                                window.location.replace('<?php echo base_url('result/revise'); ?>')
                               }, 1200);
                             } else {
                               if (Number(response) == Number(2)) {
