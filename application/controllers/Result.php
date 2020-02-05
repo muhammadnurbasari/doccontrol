@@ -969,7 +969,8 @@ class Result extends CI_Controller {
 			}
 		} elseif ($parameter == 'destroyed') {
 			$doc_release_header_id = $this->input->post('doc_release_header_id');
-			var_dump($doc_release_header_id);
+			$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 5]); // destroyed
+			echo 1;
 		}
 	}
 
