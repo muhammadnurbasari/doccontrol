@@ -881,6 +881,21 @@ class Result extends CI_Controller {
 		}
 	}
 
+	function revise($parameter='')
+	{
+		if ($parameter == '') {
+			$data['title'] = 'Release Document Propose';
+			$cek_department = $this->Result_model->get_name_by_id('department', $this->session->userdata('user')[0]['department_id'], 'department_code');
+			if ($this->session->userdata('user')[0]['level_id'] != 5 ) {
+				$this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
+			}
+			$this->db->where('doc_status !=', 1);
+			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
+			$data['table'] = 'doc_release_header';
+			$this->templating('doc_release_header/index', $data);
+		}
+	}
+
 	function master_doc_list($parameter='')
 	{
 		if ($parameter == '') {

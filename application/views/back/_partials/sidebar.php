@@ -15,7 +15,7 @@
         <li class="release" style="display : none;"><a href="<?php echo base_url('result/doc_release_header'); ?>">Releases</a></li>
         <li class="approve" style="display : none;"><a href="<?php echo base_url('result/release_approves'); ?>">Approves</a></li>
         <li class="distribution" style="display : none;"><a href="<?php echo base_url('result/distributions'); ?>">Distributions</a></li>
-        <li class="revise" style="display : none;"><a href="<?php echo base_url('result/notfound'); ?>">Revise</a></li>
+        <li class="revise" style="display : none;"><a href="<?php echo base_url('result/revise'); ?>">Revise</a></li>
       </ul>
     </li>
     <li class="submenu"> <a href="#"><i class="icon icon-info-sign"></i> <span>Arsip</span> <span class="label label-important arsip">4</span></a>
