@@ -85,6 +85,8 @@ input:checked + .slider:before {
                     <th>Created By</th>
                     <th>Approve MR By</th>
                     <th>Approve Date</th>
+                    <th>Confirm By</th>
+                    <th>Confirm Date</th>
                     <th>Status</th>
                     <th class="action">Action</th>
                   </tr>
@@ -135,6 +137,30 @@ input:checked + .slider:before {
                         ?>
                       </td>
                       <td><?php echo date('d F Y', strtotime($value['doc_release_date'])); ?></td>
+                      <td>
+                        <?php 
+                          // $this->db->where('')
+                          $doc_release_details_id = $this->Result_model->get_name_by_name('doc_release_details','doc_release_header_id', $value['doc_release_header_id'], 'doc_release_details_id');
+
+                          if (!$this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id)) {
+                          var_dump($doc_release_details_id);
+                              // echo "-";
+                           } else {
+                            echo $this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id)->confirm_by;
+                           }
+                         ?>
+                      </td>
+                      <td>
+                        <?php 
+                          $doc_release_details_id = $this->Result_model->get_name_by_name('doc_release_details','doc_release_header_id', $value['doc_release_header_id'], 'doc_release_details_id');
+
+                          if (!$this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id)) {
+                              echo "-";
+                           } else {
+                            echo $this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id)->confirm_date;
+                           }
+                         ?>
+                      </td>
                       <td class="status">
                         <?php 
                           $doc_release_header_id = $value['doc_release_header_id'];
