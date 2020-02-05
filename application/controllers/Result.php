@@ -884,7 +884,7 @@ class Result extends CI_Controller {
 	function revise($parameter='')
 	{
 		if ($parameter == '') {
-			$data['title'] = 'Release Document Propose';
+			$data['title'] = 'Revise';
 			$cek_department = $this->Result_model->get_name_by_id('department', $this->session->userdata('user')[0]['department_id'], 'department_code');
 			if ($this->session->userdata('user')[0]['level_id'] != 5 ) {
 				$this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
@@ -892,7 +892,7 @@ class Result extends CI_Controller {
 			$this->db->where('doc_status !=', 1);
 			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
 			$data['table'] = 'doc_release_header';
-			$this->templating('doc_release_header/index', $data);
+			$this->templating('revise/index', $data);
 		}
 	}
 
