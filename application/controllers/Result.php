@@ -363,6 +363,8 @@ class Result extends CI_Controller {
 				$this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
 			}
 			$this->db->where('doc_status !=', 1);
+			$this->db->where('doc_status !=', 4);
+			$this->db->where('doc_status !=', 5);
 			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
 			$data['table'] = 'doc_release_header';
 			$this->templating('doc_release_header/index', $data);
@@ -889,10 +891,84 @@ class Result extends CI_Controller {
 			if ($this->session->userdata('user')[0]['level_id'] != 5 ) {
 				$this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
 			}
-			$this->db->where('doc_status !=', 1);
+			$this->db->where('doc_status', 1);
 			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
 			$data['table'] = 'doc_release_header';
 			$this->templating('revise/index', $data);
+		} elseif ($parameter == 'revise') {
+			if (!empty($_FILES['doc_file']['name'])) {
+				
+				$doc_release_header_id = $this->input->post('doc_release_header_id');
+				$doc_release_code = $this->input->post('doc_release_code_new');
+				$doc_release_date = date('Y-m-d', strtotime($this->input->post('doc_release_date')));
+				$doc_title = $this->input->post('doc_title');
+				$doc_type_id = explode('/', $this->input->post('doc_type_id'))[0];
+				$department_id = $this->session->userdata('user')[0]['department_id'];
+				$doc_category_id = $this->input->post('doc_category_id');
+				$doc_no = $this->input->post('doc_no');
+				$revisi_no = $this->input->post('revisi_no');
+				$description = $this->input->post('description');
+				$revisi_note = NULL;
+				$expired_note = NULL;
+				$doc_status = 0;
+				$created_at = date('Y-m-d');
+				$revised_at = NULL;
+				$deleted_at = NULL;
+				$created_by = $this->session->userdata('user')[0]['user_id'];
+				$revised_by = NULL;
+				$deleted_by = NULL;
+				$this->form_validation->set_rules('doc_title','Doc_title','required',['required' => 'Document Name tidak boleh kosong']);
+				$this->form_validation->set_rules('doc_type_id','Doc_type_id','required',['required' => 'Document tidak boleh kosong']);
+				$this->form_validation->set_rules('doc_category_id','Doc_category_id','required',['required' => 'Doc Category tidak boleh kosong']);
+				$this->form_validation->set_rules('description','Description','required',['required' => 'Release Description tidak boleh kosong']);
+				if ($this->form_validation->run() == false) {
+					echo validation_errors();
+				} else {
+						$config['overwrite']            = true;
+						$config['max_size']             = 3000;
+						$config['upload_path']= "./assets/files/release/";
+						$config['allowed_types']        = 'pdf';
+						$config['overwrite']            = true;
+						 
+						$this->load->library('upload',$config);
+						if($this->upload->do_upload('doc_file')){
+				 
+							$data = [
+								'doc_release_code' => $doc_release_code,
+								'doc_release_date' => $doc_release_date,
+								'doc_title' => $doc_title,
+								'doc_type_id' => $doc_type_id,
+								'department_id' => $department_id,
+								'doc_category_id' => $doc_category_id,
+								'doc_no' => $doc_no,
+								'revisi_no' => $revisi_no,
+								'description' => $description,
+								'doc_file' => $this->upload->data('file_name'),
+								'revisi_note' => $revisi_note,
+								'expired_note' => $expired_note,
+								'doc_status' => $doc_status,
+								'created_at' => $created_at,
+								'revised_at' => $revised_at,
+								'deleted_at' => $deleted_at,
+								'created_by' => $created_by,
+								'revised_by' => $revised_by,
+								'deleted_by' => $deleted_by
+							];
+							$this->db->insert('doc_release_header', $data);
+							$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 4]); // expired
+							echo 1;
+							
+						} else {
+							$error = array('error' => $this->upload->display_errors());
+							
+							echo $error['error'];
+						}
+				}
+			} else {
+				echo 2; // belum upload document revise
+			}
+		} elseif ($parameter == 'destroy') {
+			
 		}
 	}
 
@@ -928,6 +1004,17 @@ class Result extends CI_Controller {
 			
             return $this->load->view($page, $data);
         }
+	}
+
+	function load_revise($id ='')
+	{
+		$this->_sessionguard();
+        $data['results'] = $this->db->get_where('doc_release_header',['doc_release_header_id' => $id])->row();
+        $data['title'] = 'Revise Document';
+        $data['table'] = 'doc_release_header';
+        $page = 'back/revise/revise';
+			
+        return $this->load->view($page, $data);	
 	}
 	
 	function ajax_load_approves($info, $id)

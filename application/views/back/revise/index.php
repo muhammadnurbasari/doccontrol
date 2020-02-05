@@ -9,7 +9,6 @@
 <!--End-breadcrumbs-->
 <?php //var_dump($this->session->userdata()); ?>
   <div class="container-fluid">   
-      <h3><span class="badge tombol badge-info add">add <?php echo explode('_', $table)[0].' '.explode('_', $table)[1]; ?></span></h3>
       <div class="row-fluid">
         <div class="widget-box">
           <div class="widget-title bg_lg"><span class="icon"><i class="icon-th-large"></i></span>
@@ -86,12 +85,10 @@
                        </td>
                       <td>
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
-                          <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i></span>
+                          <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> details</span>
                         </a>
-                        <span class="badge tombol badge-success edit" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-edit"></i></span>
-                        <?php if ($value['doc_status'] == 3) { ?>
-                          <span class="badge tombol badge-important hapus" data-toggle="modal" data-target="#deletemodal" data-id="<?php echo $value[$table.'_id']; ?>" data-name="<?php echo $value['doc_release_code']; ?>"><i class="icon-trash"></i></span>
-                        <?php } ?>
+                        <span class="badge tombol badge-success revise" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-edit"></i> revise</span>
+                        <span class="badge tombol badge-important destroyed" data-toggle="modal" data-target="#deletemodal" data-id="<?php echo $value[$table.'_id']; ?>" data-name="<?php echo $value['doc_release_code']; ?>"><i class="icon-trash"></i> destroyed</span>
                       </td>  
                     </tr>
                   <?php endforeach ?>
@@ -105,5 +102,51 @@
 </div>
 
 <!--end-main-container-part-->
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('span.revise').click(function() {
+      var id = $(this).data('id')
+      $.ajax({
+        url : '<?php echo base_url('result/load_revise/') ?>'+'/'+id,
+        success : function(response) {
+          $('div.yield').html(response);
+        }
+      })
+    })
+  })
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
