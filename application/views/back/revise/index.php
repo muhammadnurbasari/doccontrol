@@ -19,8 +19,8 @@
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Propose No</th>
-                    <th>Propose Date</th>
+                    <th>Create Date</th>
+                    <th>Release Date</th>
                     <th>Document No</th>
                     <th>No Revisi</th>
                     <th>Document Name</th>
@@ -63,8 +63,12 @@
                   ?>
                     <tr>
                       <td><?php echo $no++; ?></td>
-                      <td><?php echo $value['doc_release_code']; ?></td>
-                      <td><?php echo $value['doc_release_date']; ?></td>
+                      <td><?php echo date('d F Y',strtotime($value['doc_release_date'])); ?></td>
+                      <td>
+                        <?=
+                          date('d F Y',strtotime($release_date = $this->Result_model->get_name_by_name('release_approves','doc_release_header_id',$value['doc_release_header_id'],'approve_mr_date')));
+                         ?> 
+                      </td>
                       <td><?php echo $doc_no; ?></td>
                       <td><?php echo $value['revisi_no'] == NULL ? 0 : $value['revisi_no']; ?></td>
                       <td><?php echo $value['doc_title']; ?></td>
