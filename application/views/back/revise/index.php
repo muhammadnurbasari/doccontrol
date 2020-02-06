@@ -115,6 +115,15 @@
             <div class="modal-footer">
               <form action="<?= base_url('result/revise/destroyed'); ?>" method="post" class="destroyed">
                 <input type="hidden" name="<?php echo $table; ?>_id" id="id">
+                <div class="row-fluid">
+                  <div class="span12">
+                    <div class="control-group">
+                      <div class="controls">
+                        <input type="text" class="span12" name="revise_note" required placeholder="Please insert note">
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="form-actions">
                   <button type="button" class="btn btn-danger destroyed" data-dismiss="modal" aria-label="Close"><i class="icon-trash"></i></button>
                   <button class="btn btn-warning " type="button" data-dismiss="modal" aria-label="Close">

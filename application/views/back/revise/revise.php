@@ -107,7 +107,7 @@
                       </div>
                     </div>
                     <div class="control-group doc_file">
-                      <label class="control-label">Document Files</label>
+                      <label class="control-label">Document Files :</label>
                       <input type="hidden" class="span11" name="doc_file_old" value="<?= $results->doc_file; ?>">
                       <div class="controls">
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$results->doc_file) ?>">
@@ -116,12 +116,18 @@
                       </div>
                     </div>
                     <div class="control-group file-reject">
-                      <label class="control-label">Ubah Document Files</label>
+                      <label class="control-label">Ubah Document Files : </label>
                       <div class="controls">
                         <input type="file" name="doc_file" id="upload_file">
                         <p id="error1" style="display:none; color:#FF0000;">
                           Format file yang disetujui sistem : (PDF).
                         </p>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">Note :</label>
+                      <div class="controls">
+                        <input type="text" class="span11" name="revise_note" required>
                       </div>
                     </div>
               </div>

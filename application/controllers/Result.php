@@ -928,7 +928,7 @@ class Result extends CI_Controller {
 				$doc_no = $this->input->post('doc_no');
 				$revisi_no = $this->input->post('revisi_no');
 				$description = $this->input->post('description');
-				$revisi_note = NULL;
+				$revisi_note = $this->input->post('revise_note');
 				$expired_note = NULL;
 				$doc_status = 0;
 				$created_at = date('Y-m-d');
@@ -941,6 +941,7 @@ class Result extends CI_Controller {
 				$this->form_validation->set_rules('doc_type_id','Doc_type_id','required',['required' => 'Document tidak boleh kosong']);
 				$this->form_validation->set_rules('doc_category_id','Doc_category_id','required',['required' => 'Doc Category tidak boleh kosong']);
 				$this->form_validation->set_rules('description','Description','required',['required' => 'Release Description tidak boleh kosong']);
+				$this->form_validation->set_rules('revise_note','Revise_note','required',['required' => 'Note tidak boleh kosong']);
 				if ($this->form_validation->run() == false) {
 					echo validation_errors();
 				} else {
@@ -989,7 +990,8 @@ class Result extends CI_Controller {
 			}
 		} elseif ($parameter == 'destroyed') {
 			$doc_release_header_id = $this->input->post('doc_release_header_id');
-			$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 5, 'deleted_by' => $this->session->userdata('user')[0]['user_id']]); // destroyed
+			$revise_note = $this->input->post('revise_note');
+			$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 5, 'deleted_by' => $this->session->userdata('user')[0]['user_id'], 'deleted_at' => date('Y-m-d'), 'revisi_note' => $revise_note]); // destroyed
 			echo 1;
 		}
 	}
