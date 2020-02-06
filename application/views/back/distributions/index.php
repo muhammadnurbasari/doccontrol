@@ -139,25 +139,25 @@ input:checked + .slider:before {
                       <td><?php echo date('d F Y', strtotime($value['doc_release_date'])); ?></td>
                       <td>
                         <?php 
-                          // $this->db->where('')
+                          $this->db->where('department_id', $value['department_id']);
                           $doc_release_details_id = $this->Result_model->get_name_by_name('doc_release_details','doc_release_header_id', $value['doc_release_header_id'], 'doc_release_details_id');
 
-                          if (!$this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id)) {
-                          var_dump($doc_release_details_id);
-                              // echo "-";
+                          if (!$doc_release_details_id) {
+                              echo "-";
                            } else {
-                            echo $this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id)->confirm_by;
+                            echo $this->Result_model->get_name_by_id('user', $this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id, 'confirm_by'), 'user_name');
                            }
                          ?>
                       </td>
                       <td>
                         <?php 
+                          $this->db->where('department_id', $value['department_id']);
                           $doc_release_details_id = $this->Result_model->get_name_by_name('doc_release_details','doc_release_header_id', $value['doc_release_header_id'], 'doc_release_details_id');
 
-                          if (!$this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id)) {
+                          if (!$doc_release_details_id) {
                               echo "-";
                            } else {
-                            echo $this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id)->confirm_date;
+                            echo $this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id, 'confirm_date');
                            }
                          ?>
                       </td>
