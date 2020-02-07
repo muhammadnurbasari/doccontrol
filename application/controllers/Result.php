@@ -1056,6 +1056,7 @@ class Result extends CI_Controller {
 	function report($parameter='')
 	{
 		if ($parameter == '') {
+			$data['table'] = 'doc_release_header';
 			$data['title'] = 'Report';
 			$this->templating('report/index', $data);
 		}

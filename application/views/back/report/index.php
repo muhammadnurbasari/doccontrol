@@ -8,54 +8,35 @@
   </div>
 <!--End-breadcrumbs-->
 <?php //var_dump($this->session->userdata()); ?>
-  <div class="container-fluid">   
+  <div class="container span8">   
       <div class="widget-box">
         <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
           <h5>Form Elements</h5>
         </div>
-        <div class="widget-content nopadding">
+        <div class="widget-content nopadding ">
           <form class="form-horizontal">
             <div class="control-group">
-              <label class="control-label">Color picker (hex)</label>
+              <label class="control-label">Choose Report</label>
               <div class="controls">
-                <input type="text" data-color="#ffffff" value="#ffffff" class="colorpicker input-big span11">
-                <span class="help-block">Color picker with Formate of  (hex)</span> </div>
+                <select name="jenis">
+                  <option value="" disabled selected>choose..</option>
+                  <option value="release">Release</option>
+                  <option value="expired">Expired</option>
+                  <option value="destroyed">Destroyed</option>
+                </select>
+                <span class="help-block">Input tanggal mulai cetak laporan</span> </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Color picker (rgba)</label>
+              <label class="control-label">Date Start</label>
               <div class="controls">
-                <input type="text" data-color="rgba(344,232,53,0.5)" value="rgba(344,232,53,0.5)" data-color-format="rgba" class="colorpicker span11">
-                <span class="help-block">Color picker with Formate of  (rgba)</span> </div>
+                <input type="text" data-date-format="dd-mm-yyyy" class="datepicker span5">
+                <span class="help-block">Input tanggal mulai cetak laporan</span> </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Date picker (dd-mm)</label>
+              <label class="control-label">Date Final</label>
               <div class="controls">
-                <input type="text" data-date="01-02-2013" data-date-format="dd-mm-yyyy" value="01-02-2013" class="datepicker span11">
-                <span class="help-block">Date with Formate of  (dd-mm-yy)</span> </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Date Picker (mm-dd)</label>
-              <div class="controls">
-                <div  data-date="12-02-2012" class="input-append date datepicker">
-                  <input type="text" value="12-02-2012"  data-date-format="mm-dd-yyyy" class="span11" >
-                  <span class="add-on"><i class="icon-th"></i></span> </div>
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Color Picker (rgb)</label>
-              <div class="controls">
-                <div data-color-format="rgb" data-color="rgb(155, 142, 180)" class="input-append color colorpicker colorpicker-rgb">
-                  <input type="text" value="rgb(155, 142, 180)" class="span11">
-                  <span class="add-on"><i style="background-color: rgb(155, 142, 180)"></i></span> </div>
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Color Picker (hex)</label>
-              <div class="controls">
-                <div data-color-format="hex" data-color="#000000"  class="input-append color colorpicker">
-                  <input type="text" value="#000000" class="span11">
-                  <span class="add-on"><i style="background-color: #000000"></i></span> </div>
-              </div>
+                <input type="text" data-date-format="dd-mm-yyyy" class="datepicker span5">
+                <span class="help-block">Input tanggal akhir cetak laporan</span> </div>
             </div>
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Save</button>
