@@ -139,7 +139,7 @@ input:checked + .slider:before {
                       <td><?php echo date('d F Y', strtotime($value['doc_release_date'])); ?></td>
                       <td>
                         <?php 
-                          $this->db->where('department_id', $value['department_id']);
+                          $this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
                           $doc_release_details_id = $this->Result_model->get_name_by_name('doc_release_details','doc_release_header_id', $value['doc_release_header_id'], 'doc_release_details_id');
 
                           if (!$doc_release_details_id) {
@@ -155,7 +155,7 @@ input:checked + .slider:before {
                       </td>
                       <td>
                         <?php 
-                          $this->db->where('department_id', $value['department_id']);
+                          $this->db->where('department_id', $this->session->userdata('user')[0]['department_id']);
                           $doc_release_details_id = $this->Result_model->get_name_by_name('doc_release_details','doc_release_header_id', $value['doc_release_header_id'], 'doc_release_details_id');
 
                           if (!$doc_release_details_id) {
