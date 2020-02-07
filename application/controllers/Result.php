@@ -1052,6 +1052,14 @@ class Result extends CI_Controller {
 			$this->templating('destroyed/index', $data);
 		}
 	}
+
+	function report($parameter='')
+	{
+		if ($parameter == '') {
+			$data['title'] = 'Report';
+			$this->templating('report/index', $data);
+		}
+	}
 	
 	function ajax_load($table, $action, $id = '')
     {
