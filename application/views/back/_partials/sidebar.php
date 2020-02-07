@@ -10,7 +10,7 @@
         <li class="category_documents" style="display : none;"><a href="<?php echo base_url('result/doc_category'); ?>">Category Documents</a></li>
       </ul>
     </li>
-    <li class="submenu"> <a href="#"><i class="icon icon-file"></i> <span>Transaksi</span> <span class="label label-important transaksi"></span></a>
+    <li class="submenu"> <a href="#"><i class="icon-list-alt"></i> <span>Transaksi</span> <span class="label label-important transaksi"></span></a>
       <ul>
         <li class="release" style="display : none;"><a href="<?php echo base_url('result/doc_release_header'); ?>">Releases</a></li>
         <li class="approve" style="display : none;"><a href="<?php echo base_url('result/release_approves'); ?>">Approves</a></li>
@@ -18,7 +18,7 @@
         <li class="revise" style="display : none;"><a href="<?php echo base_url('result/revise'); ?>">Revise</a></li>
       </ul>
     </li>
-    <li class="submenu"> <a href="#"><i class="icon icon-info-sign"></i> <span>Arsip</span> <span class="label label-important arsip">4</span></a>
+    <li class="submenu"> <a href="#"><i class="icon-book"></i> <span>Arsip</span> <span class="label label-important arsip">4</span></a>
       <ul>
         <li style="display : none;" class="master_doc_list"><a href="<?php echo base_url('result/master_doc_list'); ?>">Master Doc List</a></li>
         <li style="display : none;" class="expired_doc"><a href="<?php echo base_url('result/expired'); ?>">Expired Doc</a></li>
@@ -26,7 +26,7 @@
         <li style="display : none;" class="external_doc"><a href="<?php echo base_url('result/notfound'); ?>">External Doc</a></li>
       </ul>
     </li>
-    <li style="display : none;" class="report"><a href="<?php echo base_url('result/notfound'); ?>"><i class="icon icon-signal"></i> <span>Report</span></a> </li>
+    <li style="display : none;" class="report"><a href="<?php echo base_url('result/report'); ?>"><i class="icon-print"></i> <span>Report</span></a> </li>
   </ul>
 </div>
 <!--sidebar-menu-->
