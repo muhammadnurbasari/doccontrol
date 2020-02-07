@@ -145,7 +145,7 @@ input:checked + .slider:before {
                           if (!$doc_release_details_id) {
                               echo "-";
                            } else {
-                            if (!$this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id, 'confirm_by')) {
+                            if (!$this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id)) {
                               echo "-";
                             } else {
                               echo $this->Result_model->get_name_by_id('user', $this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id, 'confirm_by'), 'user_name');
@@ -161,7 +161,7 @@ input:checked + .slider:before {
                           if (!$doc_release_details_id) {
                               echo "-";
                            } else {
-                            if (!$this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id, 'confirm_date')) {
+                            if (!$this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id)) {
                               echo "-";
                             } else {
                               echo $this->Result_model->get_name_by_name('distributions','doc_release_details_id', $doc_release_details_id, 'confirm_date');
