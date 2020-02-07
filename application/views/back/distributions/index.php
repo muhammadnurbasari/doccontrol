@@ -172,10 +172,11 @@ input:checked + .slider:before {
                       <td class="status">
                         <?php 
                           $doc_release_header_id = $value['doc_release_header_id'];
-                          $department_id = $value['department_id'];
+                          $department_id = $this->session->userdata('user')[0]['department_id'];
+                          $this->db->where('department_id', $department_id);
                           $cek_id_detail = $this->Result_model->get_by_name('doc_release_details', 'doc_release_header_id' , $doc_release_header_id);
                           foreach ($cek_id_detail as $key => $nilai) :
-                            if (count($this->Result_model->get_by_name('distributions', 'doc_release_details_id' , $nilai['doc_release_details_id'])) > 0 && $this->Result_model->get_name_by_id('doc_release_details', $nilai['doc_release_details_id'], 'department_id') == $this->session->userdata('user')[0]['department_id']) {
+                            if ($this->Result_model->get_by_name('distributions', 'doc_release_details_id' , $nilai['doc_release_details_id'])) {
                               echo $status = '<span class="label label-info status">Confirmed</span>';
                               break;
                             } else {
