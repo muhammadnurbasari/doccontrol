@@ -999,7 +999,7 @@ class Result extends CI_Controller {
 	function master_doc_list($parameter='')
 	{
 		if ($parameter == '') {
-			$data['title'] = 'Distributions';
+			$data['title'] = 'Master Doc List';
 			$this->db->select('doc_release_header.doc_release_header_id');
 			$this->db->select('doc_release_header.doc_release_code');
 			$this->db->select('doc_release_header.doc_release_date');
