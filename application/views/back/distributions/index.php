@@ -173,12 +173,16 @@ input:checked + .slider:before {
                         <?php 
                           $doc_release_header_id = $value['doc_release_header_id'];
                           $department_id = $value['department_id'];
-                          $cek_distribution = $this->db->query("SELECT * FROM doc_release_details RIGHT JOIN distributions ON doc_release_details.doc_release_details_id = distributions.doc_release_details_id WHERE doc_release_details.doc_release_header_id = '$doc_release_header_id' AND doc_release_details.department_id = '$department_id'")->result_array();
-                          if ($cek_distribution) {
-                            echo $status = '<span class="label label-info status">Confirmed</span>';
-                          } else {
-                            echo $status = '<span class="label label-important status">No Confirmed</span>';
-                          }
+                          $cek_id_detail = $this->Result_model->get_by_name('doc_release_details', 'doc_release_header_id' , $doc_release_header_id);
+                          foreach ($cek_id_detail as $key => $nilai) :
+                            if (count($this->Result_model->get_by_name('distributions', 'doc_release_details_id' , $nilai['doc_release_details_id'])) > 0 && $this->Result_model->get_name_by_id('doc_release_details', $nilai['doc_release_details_id'], 'department_id') == $this->session->userdata('user')[0]['department_id']) {
+                              echo $status = '<span class="label label-info status">Confirmed</span>';
+                              break;
+                            } else {
+                              echo $status = '<span class="label label-important status">No Confirmed</span>';
+                              break;
+                            }
+                          endforeach;
                          ?>
                          <input type="hidden" class="doc_details_id" value="<?php echo $value['doc_release_details_id']; ?>">
                       </td>

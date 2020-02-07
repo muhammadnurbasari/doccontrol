@@ -90,6 +90,7 @@
 <script src="<?= base_url('assets/'); ?>js/bootstrap.min.js"></script> 
 <script src="<?= base_url('assets/'); ?>js/jquery.peity.min.js"></script> 
 <script src="<?= base_url('assets/'); ?>js/fullcalendar.min.js"></script> 
+<script src="<?= base_url('assets/'); ?>js/bootstrap-datepicker.js"></script> 
 <script src="<?= base_url('assets/'); ?>js/jquery.validate.js"></script> 
 <script src="<?= base_url('assets/'); ?>js/matrix.form_validation.js"></script> 
 <script src="<?= base_url('assets/'); ?>js/jquery.wizard.js"></script> 
