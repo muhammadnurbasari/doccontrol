@@ -174,7 +174,7 @@ input:checked + .slider:before {
                           $doc_release_header_id = $value['doc_release_header_id'];
                           $department_id = $this->session->userdata('user')[0]['department_id'];
                           $this->db->where('department_id', $department_id);
-                          $cek_id_detail = $this->Result_model->get_by_name('doc_release_details', 'doc_release_header_id' , $doc_release_header_id);
+                          $cek_id_detail = $this->Result_model->get_by_name('doc_release_details', 'doc_release_header_id' , $doc_release_header_id);kjkjk
                           foreach ($cek_id_detail as $key => $nilai) :
                             if ($this->Result_model->get_by_name('distributions', 'doc_release_details_id' , $nilai['doc_release_details_id'])) {
                               echo $status = '<span class="label label-info status">Confirmed</span>';
