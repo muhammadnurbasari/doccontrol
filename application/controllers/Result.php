@@ -932,7 +932,7 @@ class Result extends CI_Controller {
 				$expired_note = NULL;
 				$doc_status = 0;
 				$created_at = date('Y-m-d');
-				$revised_at = NULL;
+				$revised_at = date('Y-m-d');
 				$deleted_at = NULL;
 				$created_by = $this->session->userdata('user')[0]['user_id'];
 				$revised_by = NULL;
@@ -976,7 +976,7 @@ class Result extends CI_Controller {
 								'deleted_by' => $deleted_by
 							];
 							$this->db->insert('doc_release_header', $data);
-							$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 4]); // expired
+							$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 4,'revised_by' => $this->session->userdata('user')[0]['user_id'], 'revised_at' => date('Y-m-d'), 'expired_note' => $revisi_note]); // expired
 							echo 1;
 							
 						} else {
@@ -991,7 +991,7 @@ class Result extends CI_Controller {
 		} elseif ($parameter == 'destroyed') {
 			$doc_release_header_id = $this->input->post('doc_release_header_id');
 			$revise_note = $this->input->post('revise_note');
-			$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 5, 'deleted_by' => $this->session->userdata('user')[0]['user_id'], 'deleted_at' => date('Y-m-d'), 'revisi_note' => $revise_note]); // destroyed
+			$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 5, 'deleted_by' => $this->session->userdata('user')[0]['user_id'], 'deleted_at' => date('Y-m-d'), 'revisi_note' => $revisi_note]); // destroyed
 			echo 1;
 		}
 	}
@@ -1045,7 +1045,7 @@ class Result extends CI_Controller {
 	function destroyed($parameter='')
 	{
 		if ($parameter == '') {
-			$data['title'] = 'Expired';
+			$data['title'] = 'Destroyed';
 			$this->db->where('doc_status', 5);
 			$data['doc_release_headers'] = $this->Result_model->getData('doc_release_header');
 			$data['table'] = 'doc_release_header';
@@ -1066,15 +1066,54 @@ class Result extends CI_Controller {
 			$mpdf = new \Mpdf\Mpdf();
 
 			if ($jenis == 'release') {
-				$this->db->where('doc_status', 1);
-				$release = $this->db->get('doc_release_header')->result_array();
-				var_dump($release);die;
+				$this->db->select('doc_release_header.doc_release_header_id');
+				$this->db->select('doc_release_header.doc_release_code');
+				$this->db->select('doc_release_header.doc_release_date');
+				$this->db->select('doc_release_header.doc_title');
+				$this->db->select('doc_release_header.doc_type_id');
+				$this->db->select('doc_release_header.department_id');
+				$this->db->select('doc_release_header.doc_category_id');
+				$this->db->select('doc_release_header.doc_no');
+				$this->db->select('doc_release_header.revisi_no');
+				$this->db->select('doc_release_header.description');
+				$this->db->select('doc_release_header.doc_file');
+				$this->db->select('doc_release_header.revisi_note');
+				$this->db->select('doc_release_header.expired_note');
+				$this->db->select('doc_release_header.doc_status');
+				$this->db->select('doc_release_header.created_at');
+				$this->db->select('doc_release_header.revised_at');
+				$this->db->select('doc_release_header.deleted_at');
+				$this->db->select('doc_release_header.created_by');
+				$this->db->select('doc_release_header.revised_by');
+				$this->db->select('doc_release_header.deleted_by');
+				$this->db->select('release_approves.approve_dept_by');
+				$this->db->select('release_approves.approve_dc_by');
+				$this->db->select('release_approves.approve_mr_by');
+				$this->db->from('doc_release_header');
+				$this->db->join('release_approves', 'doc_release_header.doc_release_header_id = release_approves.doc_release_header_id', 'left');
+				$this->db->where('doc_release_header.doc_status', 1);
+				$this->db->where('release_approves.approve_mr_date >=', date('Y-m-d',strtotime($tgl_awal)));
+				$this->db->where('release_approves.approve_mr_date <=', date('Y-m-d',strtotime($tgl_akhir)));
+				$release = $this->db->get()->result_array();
+
+				if (!$release) {
+					$data = '<div style="text-align: center;">';
+
+	                $data .= '<h3>DOCUMENT CONTROL</h3>
+	                            <h3>Laporan Document Release</h3>
+	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
+	                $data .= '</h4>
+	                         </div>
+	                        <hr/>';
+	                $data .= '<h3 style="background-color:red;text-align:center;">Maaf Tidak ada Report Release untuk tanggal yang di pilih</h3>';
+				} else {
 	                $data = '<div style="text-align: center;">';
 
 	                $data .= '<h3>DOCUMENT CONTROL</h3>
 	                            <h3>Laporan Document Release</h3>
-	                            <h4>'.date('d F Y', strtotime($awal));
-	                $data .= ' s/d '.date('d F Y', strtotime($akhir));
+	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
 	                $data .= '</h4>
 	                         </div>
 	                        <hr/>';
@@ -1082,42 +1121,239 @@ class Result extends CI_Controller {
 	                          <thead>
 	                            <tr>
 	                              <th>No</th>
-	                              <th>Nama</th>
-	                              <th>Tanggal Pinjam</th>
-	                              <th>Tanggal Kembali</th>
-	                              <th>NO HP</th>
-	                              <th>Alamat</th>
-	                              <th>Approved</th>
+	                              <th>Propose Date</th>
+	                              <th>Doc Propose No</th>
+	                              <th>Doc No</th>
+	                              <th>Doc Title</th>
+	                              <th>Created By</th>
+	                              <th>Approved Head Of Dept By</th>
+	                              <th>Approved Staff DC By</th>
+	                              <th>Approved Head Of MR By</th>
 	                            </tr>
 	                          </thead>
 	                          <tbody>';
-	                        $no = 1; $sw = 0; foreach ($sewa as $s => $value) :
+	                        $no = 1; $sw = 0; foreach ($release as $s => $value) :
+	                        // make doc_no
+		                      $doc_no = 'ILP-'.$this->Result_model->get_name_by_id('document', $value['doc_type_id'], 'document_code');
+		                      $doc_no .= '-'.$this->Result_model->get_name_by_id('department', $value['department_id'], 'department_code');
+		                      if ($value['doc_category_id'] < 10) {
+		                        $doc_category_id = '0'.$value['doc_category_id'];
+		                      } else {
+		                        $doc_category_id = $value['doc_category_id'];
+		                      }
+		                      $doc_no .= '-'.$doc_category_id;
+		                      if ($value['doc_no'] < 10) {
+		                        $doc_nomor_urut = '0'.$value['doc_no'];
+		                      } else {
+		                        $doc_nomor_urut = $value['doc_no'];
+		                      }
+		                      $doc_no .= '-'.$doc_nomor_urut;
+		                      $revisi_no = $this->Result_model->get_name_by_id('doc_release_header', $value['doc_release_header_id'], 'revisi_no');
+		                      if ($revisi_no == NULL) {
+		                        $revisi_no = '00';
+		                      } else {
+		                        if ($revisi_no < 10) {
+		                          $revisi_no = '0'.$revisi_no;
+		                        } else {
+		                          $revisi_no = $revisi_no;
+		                        }
+		                      }
+		                      $doc_no .= '-'.$revisi_no;
+		                      // finish mak doc_no
 	                    $data .= '<tr>
 	                              <th scope="row">'.$no++;
 	                    $data .='</th>
-	                            <td>'.$value['nama'];
+	                            <td>'.$value['doc_release_date'];
 	                    $data .='</td>
-	                             <td>'.$value['tgl_pinjam'];
+	                             <td>'.$value['doc_release_code'];
 	                    $data .='</td>
-	                             <td>'.$value['tgl_kembali'];
+	                             <td>'.$doc_no;
 	                    $data .='</td>
-	                             <td>'.$value['no_hp'];
+	                             <td>'.$value['doc_title'];
 	                    $data .='</td>
-	                             <td>'.$value['alamat_sewa'];
-	                    $data .='</td>';
-	                            if ($value['approved'] == 1) {
-	                                $approved = 'approved';
-	                            } else {
-	                                $approved = 'belum approved';
-	                            }
-	                    $data .= '<td>'.$approved;
+	                             <td style="text-align:center;">'.$this->Result_model->get_name_by_id('user', $value['created_by'], 'user_name');
+	                    $data .='</td>
+	                             <td style="text-align:center;">'.$this->Result_model->get_name_by_id('user', $value['approve_dept_by'], 'user_name');
+	                    $data .='</td>
+	                             <td style="text-align:center;">'.$this->Result_model->get_name_by_id('user', $value['approve_dc_by'], 'user_name');
+	                    $data .='</td>
+	                             <td style="text-align:center;">'.$this->Result_model->get_name_by_id('user', $value['approve_mr_by'], 'user_name');
 	                    $data .='</td>
 	                            </tr>';
 	                    endforeach;
 	                  $data .='</tbody>
 	                            </table>';
 	                $data .= '<p class="mb-0 text-right">CREATED BY</p>
-	                        <footer class="blockquote-footer text-right">AppBooking</footer>';
+	                        <footer class="blockquote-footer text-right">Doc Control</footer>';
+	            }
+			} elseif ($jenis == 'expired') {
+				$this->db->where('doc_status', 4);
+				$expired = $this->Result_model->getData('doc_release_header');
+				if (!$expired) {
+					$data = '<div style="text-align: center;">';
+
+	                $data .= '<h3>DOCUMENT CONTROL</h3>
+	                            <h3>Laporan Document Expired</h3>
+	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
+	                $data .= '</h4>
+	                         </div>
+	                        <hr/>';
+	                $data .= '<h3 style="background-color:red;text-align:center;">Maaf Tidak ada Report Expired untuk tanggal yang di pilih</h3>';
+				} else {
+					$data = '<div style="text-align: center;">';
+
+	                $data .= '<h3>DOCUMENT CONTROL</h3>
+	                            <h3>Laporan Document Expired</h3>
+	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
+	                $data .= '</h4>
+	                         </div>
+	                        <hr/>';
+	                $data .= '<table border="1">
+	                          <thead>
+	                            <tr>
+	                              <th>No</th>
+	                              <th>Expired Date</th>
+	                              <th>Doc Propose No</th>
+	                              <th>Doc No</th>
+	                              <th>Doc Title</th>
+	                              <th>Expired Note</th>
+	                            </tr>
+	                          </thead>
+	                          <tbody>';
+	                        $no = 1; $sw = 0; foreach ($expired as $s => $value) :
+	                        // make doc_no
+		                      $doc_no = 'ILP-'.$this->Result_model->get_name_by_id('document', $value['doc_type_id'], 'document_code');
+		                      $doc_no .= '-'.$this->Result_model->get_name_by_id('department', $value['department_id'], 'department_code');
+		                      if ($value['doc_category_id'] < 10) {
+		                        $doc_category_id = '0'.$value['doc_category_id'];
+		                      } else {
+		                        $doc_category_id = $value['doc_category_id'];
+		                      }
+		                      $doc_no .= '-'.$doc_category_id;
+		                      if ($value['doc_no'] < 10) {
+		                        $doc_nomor_urut = '0'.$value['doc_no'];
+		                      } else {
+		                        $doc_nomor_urut = $value['doc_no'];
+		                      }
+		                      $doc_no .= '-'.$doc_nomor_urut;
+		                      $revisi_no = $this->Result_model->get_name_by_id('doc_release_header', $value['doc_release_header_id'], 'revisi_no');
+		                      if ($revisi_no == NULL) {
+		                        $revisi_no = '00';
+		                      } else {
+		                        if ($revisi_no < 10) {
+		                          $revisi_no = '0'.$revisi_no;
+		                        } else {
+		                          $revisi_no = $revisi_no;
+		                        }
+		                      }
+		                      $doc_no .= '-'.$revisi_no;
+		                      // finish mak doc_no
+	                    $data .= '<tr>
+	                              <th scope="row">'.$no++;
+	                    $data .='</th>
+	                            <td>'.date('d-m-Y',strtotime($value['revised_at']));
+	                    $data .='</td>
+	                             <td>'.$value['doc_release_code'];
+	                    $data .='</td>
+	                             <td>'.$doc_no;
+	                    $data .='</td>
+	                             <td>'.$value['doc_title'];
+	                    $data .='</td>
+	                             <td>'.$value['expired_note'];
+	                    $data .='</td>
+	                            </tr>';
+	                    endforeach;
+	                  $data .='</tbody>
+	                            </table>';
+	                $data .= '<p class="mb-0 text-right">CREATED BY</p>
+	                        <footer class="blockquote-footer text-right">Doc Control</footer>';
+	            }
+			} elseif ($jenis == 'destroyed') {
+				$this->db->where('doc_status', 5);
+				$destroyed = $this->Result_model->getData('doc_release_header');
+				if (!$destroyed) {
+					$data = '<div style="text-align: center;">';
+
+	                $data .= '<h3>DOCUMENT CONTROL</h3>
+	                            <h3>Laporan Document Destroyed</h3>
+	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
+	                $data .= '</h4>
+	                         </div>
+	                        <hr/>';
+	                $data .= '<h3 style="background-color:red;text-align:center;">Maaf Tidak ada Report Destroyed untuk tanggal yang di pilih</h3>';
+				} else {
+					$data = '<div style="text-align: center;">';
+
+	                $data .= '<h3>DOCUMENT CONTROL</h3>
+	                            <h3>Laporan Document Destroyed</h3>
+	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
+	                $data .= '</h4>
+	                         </div>
+	                        <hr/>';
+	                $data .= '<table border="1">
+	                          <thead>
+	                            <tr>
+	                              <th>No</th>
+	                              <th>Destroyed Date</th>
+	                              <th>Doc Propose No</th>
+	                              <th>Doc No</th>
+	                              <th>Doc Title</th>
+	                              <th>Destroyed Note</th>
+	                            </tr>
+	                          </thead>
+	                          <tbody>';
+	                        $no = 1; $sw = 0; foreach ($destroyed as $s => $value) :
+	                        // make doc_no
+		                      $doc_no = 'ILP-'.$this->Result_model->get_name_by_id('document', $value['doc_type_id'], 'document_code');
+		                      $doc_no .= '-'.$this->Result_model->get_name_by_id('department', $value['department_id'], 'department_code');
+		                      if ($value['doc_category_id'] < 10) {
+		                        $doc_category_id = '0'.$value['doc_category_id'];
+		                      } else {
+		                        $doc_category_id = $value['doc_category_id'];
+		                      }
+		                      $doc_no .= '-'.$doc_category_id;
+		                      if ($value['doc_no'] < 10) {
+		                        $doc_nomor_urut = '0'.$value['doc_no'];
+		                      } else {
+		                        $doc_nomor_urut = $value['doc_no'];
+		                      }
+		                      $doc_no .= '-'.$doc_nomor_urut;
+		                      $revisi_no = $this->Result_model->get_name_by_id('doc_release_header', $value['doc_release_header_id'], 'revisi_no');
+		                      if ($revisi_no == NULL) {
+		                        $revisi_no = '00';
+		                      } else {
+		                        if ($revisi_no < 10) {
+		                          $revisi_no = '0'.$revisi_no;
+		                        } else {
+		                          $revisi_no = $revisi_no;
+		                        }
+		                      }
+		                      $doc_no .= '-'.$revisi_no;
+		                      // finish mak doc_no
+	                    $data .= '<tr>
+	                              <th scope="row">'.$no++;
+	                    $data .='</th>
+	                            <td>'.date('d-m-Y',strtotime($value['deleted_at']));
+	                    $data .='</td>
+	                             <td>'.$value['doc_release_code'];
+	                    $data .='</td>
+	                             <td>'.$doc_no;
+	                    $data .='</td>
+	                             <td>'.$value['doc_title'];
+	                    $data .='</td>
+	                             <td>'.$value['revisi_note'];
+	                    $data .='</td>
+	                            </tr>';
+	                    endforeach;
+	                  $data .='</tbody>
+	                            </table>';
+	                $data .= '<p class="mb-0 text-right">CREATED BY</p>
+	                        <footer class="blockquote-footer text-right">Doc Control</footer>';
+	            }
 			}
 
 

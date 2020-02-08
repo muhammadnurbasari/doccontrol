@@ -11,7 +11,7 @@
   <div class="container span8">   
       <div class="widget-box">
         <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-          <h5>Form Elements</h5>
+          <h5>Form Report</h5>
         </div>
         <div class="widget-content nopadding ">
           <form class="form-horizontal report" action="<?php echo base_url('result/report/pdf'); ?>" method="POST" target="_BLANKS">
