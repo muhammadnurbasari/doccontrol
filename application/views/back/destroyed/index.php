@@ -26,6 +26,7 @@
                     <th>Document Name</th>
                     <th>Destroyed By</th>
                     <th>Destroyed At</th>
+                    <th>Destroyed Note</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -71,6 +72,7 @@
                       <td><?php echo $value['doc_title']; ?></td>
                       <td><?php echo $this->Result_model->get_name_by_id('user', $value['deleted_by'], 'user_name'); ?></td>
                       <td><?php echo $value['deleted_at']; ?></td>
+                      <td><?php echo $value['revisi_note']; ?></td>
                       <td>
                         <?php if ($value['doc_status'] == 0) { ?>
                             <span class="label label-warning">Waiting</span>
