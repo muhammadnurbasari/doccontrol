@@ -30,13 +30,15 @@
           <table class="table table-bordered data-table">
               <thead>
                 <tr>
-                  <th>Username</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Department</th>
-                  <th>Email</th>
-                  <th>Level</th>
-                  <th>Action</th>
+                  <th>NO</th>
+                  <th>RDP NO</th>
+                  <th>DATE</th>
+                  <th>DOC NO</th>
+                  <th>DOC NAME</th>
+                  <th>CREATED BY</th>
+                  <th>HEAD DEPT STATUS</th>
+                  <th>DC STATUS</th>
+                  <th>MR STATUS</th>
                 </tr>
               </thead>
               <tbody>
