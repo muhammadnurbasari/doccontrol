@@ -14,7 +14,7 @@
           <h5>Form Elements</h5>
         </div>
         <div class="widget-content nopadding ">
-          <form class="form-horizontal report" action="<?php echo base_url('result/report/pdf'); ?>" method="POST">
+          <form class="form-horizontal report" action="<?php echo base_url('result/report/pdf'); ?>" method="POST" target="_BLANKS">
             <div class="control-group">
               <label class="control-label">Choose Report (click)</label>
               <div class="controls">

@@ -1063,14 +1063,66 @@ class Result extends CI_Controller {
 			$jenis	= $this->input->post('jenis');
 			$tgl_awal	= $this->input->post('tgl_awal');
 			$tgl_akhir	= $this->input->post('tgl_akhir');
+			$mpdf = new \Mpdf\Mpdf();
 
-			$data = [
-				'jenis' => $jenis,
-				'tgl_awal' => $tgl_awal	,
-				'tgl_akhir' => $tgl_akhir	,
-			];
+			if ($jenis == 'release') {
+				$this->db->where('doc_status', 1);
+				$release = $this->db->get('doc_release_header')->result_array();
+				var_dump($release);die;
+	                $data = '<div style="text-align: center;">';
 
-			var_dump($data);
+	                $data .= '<h3>DOCUMENT CONTROL</h3>
+	                            <h3>Laporan Document Release</h3>
+	                            <h4>'.date('d F Y', strtotime($awal));
+	                $data .= ' s/d '.date('d F Y', strtotime($akhir));
+	                $data .= '</h4>
+	                         </div>
+	                        <hr/>';
+	                $data .= '<table border="1">
+	                          <thead>
+	                            <tr>
+	                              <th>No</th>
+	                              <th>Nama</th>
+	                              <th>Tanggal Pinjam</th>
+	                              <th>Tanggal Kembali</th>
+	                              <th>NO HP</th>
+	                              <th>Alamat</th>
+	                              <th>Approved</th>
+	                            </tr>
+	                          </thead>
+	                          <tbody>';
+	                        $no = 1; $sw = 0; foreach ($sewa as $s => $value) :
+	                    $data .= '<tr>
+	                              <th scope="row">'.$no++;
+	                    $data .='</th>
+	                            <td>'.$value['nama'];
+	                    $data .='</td>
+	                             <td>'.$value['tgl_pinjam'];
+	                    $data .='</td>
+	                             <td>'.$value['tgl_kembali'];
+	                    $data .='</td>
+	                             <td>'.$value['no_hp'];
+	                    $data .='</td>
+	                             <td>'.$value['alamat_sewa'];
+	                    $data .='</td>';
+	                            if ($value['approved'] == 1) {
+	                                $approved = 'approved';
+	                            } else {
+	                                $approved = 'belum approved';
+	                            }
+	                    $data .= '<td>'.$approved;
+	                    $data .='</td>
+	                            </tr>';
+	                    endforeach;
+	                  $data .='</tbody>
+	                            </table>';
+	                $data .= '<p class="mb-0 text-right">CREATED BY</p>
+	                        <footer class="blockquote-footer text-right">AppBooking</footer>';
+			}
+
+
+                $mpdf->WriteHTML($data);
+                $mpdf->Output();
 		}
 	}
 	
