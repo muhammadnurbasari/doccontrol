@@ -1094,6 +1094,7 @@ class Result extends CI_Controller {
 				$this->db->where('doc_release_header.doc_status', 1);
 				$this->db->where('release_approves.approve_mr_date >=', date('Y-m-d',strtotime($tgl_awal)));
 				$this->db->where('release_approves.approve_mr_date <=', date('Y-m-d',strtotime($tgl_akhir)));
+				$this->db->order_by('release_approves.approve_mr_date','ASC');
 				$release = $this->db->get()->result_array();
 
 				if (!$release) {
@@ -1163,7 +1164,7 @@ class Result extends CI_Controller {
 	                    $data .= '<tr>
 	                              <th scope="row">'.$no++;
 	                    $data .='</th>
-	                            <td>'.$value['doc_release_date'];
+	                            <td>'.date('d-m-Y',strtotime($value['doc_release_date']));
 	                    $data .='</td>
 	                             <td>'.$value['doc_release_code'];
 	                    $data .='</td>
@@ -1187,6 +1188,7 @@ class Result extends CI_Controller {
 	                        <footer class="blockquote-footer text-right">Doc Control</footer>';
 	            }
 			} elseif ($jenis == 'expired') {
+				$this->db->order_by('revised_at','ASC');
 				$this->db->where('doc_status', 4);
 				$expired = $this->Result_model->getData('doc_release_header');
 				if (!$expired) {
@@ -1271,6 +1273,7 @@ class Result extends CI_Controller {
 	                        <footer class="blockquote-footer text-right">Doc Control</footer>';
 	            }
 			} elseif ($jenis == 'destroyed') {
+				$this->db->order_by('deleted_at', 'ASC');
 				$this->db->where('doc_status', 5);
 				$destroyed = $this->Result_model->getData('doc_release_header');
 				if (!$destroyed) {

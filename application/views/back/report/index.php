@@ -38,7 +38,7 @@
                 <span class="help-block">Input tanggal akhir cetak laporan</span> </div>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-success pdf">PRINT TO PDF</button>
+              <button type="submit" class="btn btn-success pdf">PRINT REPORT TO PDF</button>
             </div>
           </form>
         </div>
