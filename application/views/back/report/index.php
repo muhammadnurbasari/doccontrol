@@ -38,10 +38,8 @@
                 <span class="help-block">Input tanggal akhir cetak laporan</span> </div>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-success">Save</button>
-              <button type="submit" class="btn btn-primary">Reset</button>
-              <button type="submit" class="btn btn-info">Edit</button>
-              <button type="submit" class="btn btn-danger">Cancel</button>
+              <button type="submit" class="btn btn-success"><i class="icon-print"> PDF</button>
+              <button type="submit" class="btn btn-primary"><i class="icon-print"> EXCEL</button>
             </div>
           </form>
         </div>
