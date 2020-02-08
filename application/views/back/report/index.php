@@ -16,14 +16,14 @@
         <div class="widget-content nopadding ">
           <form class="form-horizontal report" action="<?php echo base_url('result/report/pdf'); ?>" method="POST" target="_BLANKS">
             <div class="control-group">
-              <label class="control-label">Choose Report (click)</label>
+              <label class="control-label">Choose Report</label>
               <div class="controls">
                 <select name="jenis" class="m-wrap" required>
                   <option value="release">Release</option>
                   <option value="expired">Expired</option>
                   <option value="destroyed">Destroyed</option>
                 </select>
-                <span class="help-block">Input tanggal mulai cetak laporan</span> </div>
+                <span class="help-block">Klik untuk memilih laporan</span> </div>
             </div>
             <div class="control-group">
               <label class="control-label">Date Start</label>
@@ -52,26 +52,14 @@
         <div class="widget-content nopadding ">
           <form class="form-horizontal report" action="<?php echo base_url('result/report/pdf'); ?>" method="POST" target="_BLANKS">
             <div class="control-group">
-              <label class="control-label">Choose Report (click)</label>
+              <label class="control-label">Choose Report</label>
               <div class="controls">
                 <select name="jenis" class="m-wrap" required>
                   <option value="release">Release</option>
                   <option value="expired">Expired</option>
                   <option value="destroyed">Destroyed</option>
                 </select>
-                <span class="help-block">Input tanggal mulai cetak laporan</span> </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Date Start</label>
-              <div class="controls">
-                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_awal" class="datepicker span5" id="awal" required>
-                <span class="help-block">Input tanggal mulai cetak laporan</span> </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Date Final</label>
-              <div class="controls">
-                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_akhir" class="datepicker span5" id="akhir" required>
-                <span class="help-block">Input tanggal akhir cetak laporan</span> </div>
+                <span class="help-block">Klik untuk memilih laporan</span> </div>
             </div>
             <div class="form-actions">
               <button type="submit" class="btn btn-primary pdf"><i class="icon-print"></i>  PRINT LEMBAR PENGESAHAN</button>
