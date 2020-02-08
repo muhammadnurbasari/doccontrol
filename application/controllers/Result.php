@@ -1489,7 +1489,7 @@ class Result extends CI_Controller {
 	                $data .= '<td rowspan="3">
 	                			<p>'.$this->Result_model->get_name_by_id('user', $value['created_by'], 'user_name').'</p><br>
 	                			<p>'.date('d-m-Y',strtotime($value['doc_release_date'])).'</p>
-	                		 </td>';
+	                		 </td><br><br>';
 	                $data .= '<td><br>
 	                			<p>'.$this->Result_model->get_name_by_id('user', $value['approve_dept_by'], 'user_name').'</p>
 	                			<p>'.date('d-m-Y',strtotime($value['approve_dept_date'])).'</p>
