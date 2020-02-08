@@ -1425,11 +1425,18 @@ class Result extends CI_Controller {
 
 			$mpdf = new \Mpdf\Mpdf();
 					$data = '<style>
-								#box1{
+								div#app{
 									width:150px;
-									height:150px;
-									border-style: groove;
-									border-width: 25px;
+									height:200px;
+									border-style: outset;
+									border-width: 5px;
+									border-color:green;
+									padding-top : 5px;
+								}
+								p#textapp {
+									font-style: italic;
+									color: green;
+									font-weight: bold;
 								}
 							 </style>
 							<div style="text-align: center;">';
@@ -1468,21 +1475,45 @@ class Result extends CI_Controller {
 	                $data .= '<h6 style="color:red;text-align:center;">Revisi        : 0'.$value['revisi_no'].'</h6>';
 	                $data .= '<h6>Document Name : '.$value['doc_title'].'</h6>';
 	                $data .= '<h6>Release Date : '.date('d F Y',strtotime($value['approve_mr_date'])).'</h6>';
-	                $data .= '<table border="1" style="text-align:center;position:fixed">
+	                $data .= '<table border="1" style="text-align:center;height:1000%;width:800px">
 	                          <thead>
 	                            <tr>
-	                              <th>Created</th>
+	                              <th>Created By</th>
 	                              <th>Approve Head Of Dept</th>
 	                              <th>Approve Staff DC</th>
 	                              <th>Approve Head Of MR</th>
 	                            </tr>
 	                          </thead>
 	                          <tbody>';
-	                $data .= '<tr>';
-	                $data .= '<td>1</td>';
-	                $data .= '<td><div id="box1">APPROVED</div></td>';
-	                $data .= '<td>1</td>';
-	                $data .= '<td>1</td>';
+	                $data .= '<tr height="100px;">';
+	                $data .= '<td rowspan="3">
+	                			<p>'.$this->Result_model->get_name_by_id('user', $value['created_by'], 'user_name').'</p><br>
+	                			<p>'.date('d-m-Y',strtotime($value['doc_release_date'])).'</p>
+	                		 </td>';
+	                $data .= '<td><br>
+	                			<p>'.$this->Result_model->get_name_by_id('user', $value['approve_dept_by'], 'user_name').'</p>
+	                			<p>'.date('d-m-Y',strtotime($value['approve_dept_date'])).'</p>
+	                			<br>
+	                			<div id="app">
+	                				<p id="textapp">APPROVED</p>
+	                			</div>';
+	                $data .= '</td><br><br>';
+	                $data .= '<td><br>
+	                			<p>'.$this->Result_model->get_name_by_id('user', $value['approve_dc_by'], 'user_name').'</p>
+	                			<p>'.date('d-m-Y',strtotime($value['approve_dc_date'])).'</p>
+	                			<br>
+	                			<div id="app">
+	                				<p id="textapp">APPROVED</p>
+	                			</div>';
+	                $data .= '</td><br><br>';
+	                $data .= '<td><br>
+	                			<p>'.$this->Result_model->get_name_by_id('user', $value['approve_mr_by'], 'user_name').'</p>
+	                			<p>'.date('d-m-Y',strtotime($value['approve_mr_date'])).'</p>
+	                			<br>
+	                			<div id="app">
+	                				<p id="textapp">APPROVED</p>
+	                			</div>';
+	                $data .= '</td><br><br>';
 	                $data .= '</tr>';
 	                $data .='</tbody>
 	                        </table>';
