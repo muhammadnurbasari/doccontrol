@@ -1059,6 +1059,18 @@ class Result extends CI_Controller {
 			$data['table'] = 'doc_release_header';
 			$data['title'] = 'Report';
 			$this->templating('report/index', $data);
+		} elseif ($parameter == 'pdf') {
+			$jenis	= $this->input->post('jenis');
+			$tgl_awal	= $this->input->post('tgl_awal');
+			$tgl_akhir	= $this->input->post('tgl_akhir');
+
+			$data = [
+				'jenis' => $jenis,
+				'tgl_awal' => $tgl_awal	,
+				'tgl_akhir' => $tgl_akhir	,
+			];
+
+			echo json_encode($data);
 		}
 	}
 	

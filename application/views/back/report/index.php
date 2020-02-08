@@ -14,7 +14,7 @@
           <h5>Form Elements</h5>
         </div>
         <div class="widget-content nopadding ">
-          <form class="form-horizontal">
+          <form class="form-horizontal report" action="echo" >
             <div class="control-group">
               <label class="control-label">Choose Report (click)</label>
               <div class="controls">
@@ -28,18 +28,17 @@
             <div class="control-group">
               <label class="control-label">Date Start</label>
               <div class="controls">
-                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_awal" class="datepicker span5" required>
+                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_awal" class="datepicker span5" id="awal" required>
                 <span class="help-block">Input tanggal mulai cetak laporan</span> </div>
             </div>
             <div class="control-group">
               <label class="control-label">Date Final</label>
               <div class="controls">
-                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_akhir" class="datepicker span5" required>
+                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_akhir" class="datepicker span5" id="akhir" required>
                 <span class="help-block">Input tanggal akhir cetak laporan</span> </div>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-success"><i class="icon-print"> PDF</button>
-              <button type="submit" class="btn btn-primary"><i class="icon-print"> EXCEL</button>
+              <button type="button" class="btn btn-success pdf">PRINT TO PDF</button>
             </div>
           </form>
         </div>
@@ -54,7 +53,6 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('input.datepicker').datepicker();
-
   })
 </script>
 
