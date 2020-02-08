@@ -991,7 +991,7 @@ class Result extends CI_Controller {
 		} elseif ($parameter == 'destroyed') {
 			$doc_release_header_id = $this->input->post('doc_release_header_id');
 			$revise_note = $this->input->post('revise_note');
-			$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 5, 'deleted_by' => $this->session->userdata('user')[0]['user_id'], 'deleted_at' => date('Y-m-d'), 'revisi_note' => $revisi_note]); // destroyed
+			$this->Result_model->update_by_id('doc_release_header', $doc_release_header_id, ['doc_status' => 5, 'deleted_by' => $this->session->userdata('user')[0]['user_id'], 'deleted_at' => date('Y-m-d'), 'revisi_note' => $revise_note]); // destroyed
 			echo 1;
 		}
 	}
