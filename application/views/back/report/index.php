@@ -29,13 +29,13 @@
             <div class="control-group">
               <label class="control-label">Date Start</label>
               <div class="controls">
-                <input type="text" data-date-format="dd-mm-yyyy" class="datepicker span5">
+                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_awal" class="datepicker span5">
                 <span class="help-block">Input tanggal mulai cetak laporan</span> </div>
             </div>
             <div class="control-group">
               <label class="control-label">Date Final</label>
               <div class="controls">
-                <input type="text" data-date-format="dd-mm-yyyy" class="datepicker span5">
+                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_akhir" class="datepicker span5">
                 <span class="help-block">Input tanggal akhir cetak laporan</span> </div>
             </div>
             <div class="form-actions">
@@ -53,6 +53,12 @@
 
 
 <!--end-main-container-part-->
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('input.datepicker').datepicker();
+  })
+</script>
 
 
 
