@@ -85,9 +85,12 @@
                        </td>
                       <td>
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
-                          <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> view & download</span>
+                          <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> View & Download</span>
                         </a>
-                        <span class="badge tombol badge-success details-distributions" data-toggle="modal" data-target="#modalDetailDistributions" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-edit"></i> details distribution</span>
+                        <a target="_BLANK" href="<?php echo base_url('result/report/pengesahan/'.$value['doc_release_header_id']) ?>">
+                          <span class="badge tombol badge-info" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-print"></i> Lembar Pengesahan</span>
+                        </a>
+                        <span class="badge tombol badge-success details-distributions" data-toggle="modal" data-target="#modalDetailDistributions" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-edit"></i> Details Distribution</span>
                       </td>  
                     </tr>
                   <?php endforeach ?>

@@ -1053,7 +1053,7 @@ class Result extends CI_Controller {
 		}
 	}
 
-	function report($parameter='')
+	function report($parameter='', $parameter2 = '')
 	{
 		if ($parameter == '') {
 			$data['table'] = 'doc_release_header';
@@ -1389,7 +1389,7 @@ class Result extends CI_Controller {
                 $mpdf->WriteHTML($data);
                 $mpdf->Output();
 		} elseif ($parameter == 'pengesahan') {
-			$doc_release_header_id = $this->input->post('doc_release_header_id');
+			$doc_release_header_id = $parameter2;
 				$this->db->select('doc_release_header.doc_release_header_id');
 				$this->db->select('doc_release_header.doc_release_code');
 				$this->db->select('doc_release_header.doc_release_date');
