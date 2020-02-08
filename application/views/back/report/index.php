@@ -16,10 +16,9 @@
         <div class="widget-content nopadding ">
           <form class="form-horizontal">
             <div class="control-group">
-              <label class="control-label">Choose Report</label>
+              <label class="control-label">Choose Report (click)</label>
               <div class="controls">
-                <select name="jenis">
-                  <option value="" disabled selected>choose..</option>
+                <select name="jenis" class="m-wrap" required>
                   <option value="release">Release</option>
                   <option value="expired">Expired</option>
                   <option value="destroyed">Destroyed</option>
@@ -29,13 +28,13 @@
             <div class="control-group">
               <label class="control-label">Date Start</label>
               <div class="controls">
-                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_awal" class="datepicker span5">
+                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_awal" class="datepicker span5" required>
                 <span class="help-block">Input tanggal mulai cetak laporan</span> </div>
             </div>
             <div class="control-group">
               <label class="control-label">Date Final</label>
               <div class="controls">
-                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_akhir" class="datepicker span5">
+                <input type="text" data-date-format="dd-mm-yyyy" name="tgl_akhir" class="datepicker span5" required>
                 <span class="help-block">Input tanggal akhir cetak laporan</span> </div>
             </div>
             <div class="form-actions">
@@ -57,6 +56,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('input.datepicker').datepicker();
+
   })
 </script>
 
