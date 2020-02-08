@@ -26,7 +26,7 @@
         <li style="display : none;" class="external_doc"><a href="<?php echo base_url('result/notfound'); ?>">External Doc</a></li>
       </ul>
     </li>
-    <li style="display : none;" class="report"><a href="<?php echo base_url('result/report'); ?>"><i class="icon-print"></i> <span>Report</span></a> </li>
+    <li style="display : none;" class="report"><a href="<?php echo base_url('result/report'); ?>"><i class="icon-print"></i> <span>Report & Pengesahan</span></a> </li>
   </ul>
 </div>
 <!--sidebar-menu-->

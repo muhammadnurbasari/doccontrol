@@ -1058,6 +1058,34 @@ class Result extends CI_Controller {
 		if ($parameter == '') {
 			$data['table'] = 'doc_release_header';
 			$data['title'] = 'Report';
+				$this->db->select('doc_release_header.doc_release_header_id');
+				$this->db->select('doc_release_header.doc_release_code');
+				$this->db->select('doc_release_header.doc_release_date');
+				$this->db->select('doc_release_header.doc_title');
+				$this->db->select('doc_release_header.doc_type_id');
+				$this->db->select('doc_release_header.department_id');
+				$this->db->select('doc_release_header.doc_category_id');
+				$this->db->select('doc_release_header.doc_no');
+				$this->db->select('doc_release_header.revisi_no');
+				$this->db->select('doc_release_header.description');
+				$this->db->select('doc_release_header.doc_file');
+				$this->db->select('doc_release_header.revisi_note');
+				$this->db->select('doc_release_header.expired_note');
+				$this->db->select('doc_release_header.doc_status');
+				$this->db->select('doc_release_header.created_at');
+				$this->db->select('doc_release_header.revised_at');
+				$this->db->select('doc_release_header.deleted_at');
+				$this->db->select('doc_release_header.created_by');
+				$this->db->select('doc_release_header.revised_by');
+				$this->db->select('doc_release_header.deleted_by');
+				$this->db->select('release_approves.approve_dept_by');
+				$this->db->select('release_approves.approve_dc_by');
+				$this->db->select('release_approves.approve_mr_by');
+				$this->db->from('doc_release_header');
+				$this->db->join('release_approves', 'doc_release_header.doc_release_header_id = release_approves.doc_release_header_id', 'left');
+				$this->db->where('doc_release_header.doc_status', 1);
+				$this->db->order_by('release_approves.approve_mr_date','ASC');
+				$data['release'] = $this->db->get()->result_array();
 			$this->templating('report/index', $data);
 		} elseif ($parameter == 'pdf') {
 			$jenis	= $this->input->post('jenis');
@@ -1362,6 +1390,38 @@ class Result extends CI_Controller {
 
                 $mpdf->WriteHTML($data);
                 $mpdf->Output();
+		} elseif ($parameter == 'pengesahan') {
+			$doc_release_header_id = $this->input->post('doc_release_header_id');
+				$this->db->select('doc_release_header.doc_release_header_id');
+				$this->db->select('doc_release_header.doc_release_code');
+				$this->db->select('doc_release_header.doc_release_date');
+				$this->db->select('doc_release_header.doc_title');
+				$this->db->select('doc_release_header.doc_type_id');
+				$this->db->select('doc_release_header.department_id');
+				$this->db->select('doc_release_header.doc_category_id');
+				$this->db->select('doc_release_header.doc_no');
+				$this->db->select('doc_release_header.revisi_no');
+				$this->db->select('doc_release_header.description');
+				$this->db->select('doc_release_header.doc_file');
+				$this->db->select('doc_release_header.revisi_note');
+				$this->db->select('doc_release_header.expired_note');
+				$this->db->select('doc_release_header.doc_status');
+				$this->db->select('doc_release_header.created_at');
+				$this->db->select('doc_release_header.revised_at');
+				$this->db->select('doc_release_header.deleted_at');
+				$this->db->select('doc_release_header.created_by');
+				$this->db->select('doc_release_header.revised_by');
+				$this->db->select('doc_release_header.deleted_by');
+				$this->db->select('release_approves.approve_dept_by');
+				$this->db->select('release_approves.approve_dc_by');
+				$this->db->select('release_approves.approve_mr_by');
+				$this->db->from('doc_release_header');
+				$this->db->join('release_approves', 'doc_release_header.doc_release_header_id = release_approves.doc_release_header_id', 'left');
+				$this->db->where('doc_release_header.doc_status', 1);
+				$this->db->where('doc_release_header.doc_release_header_id', $doc_release_header_id);
+				$this->db->order_by('release_approves.approve_mr_date','ASC');
+				$pengesahan = $this->db->get()->result_array();
+				var_dump($pengesahan);
 		}
 	}
 	
