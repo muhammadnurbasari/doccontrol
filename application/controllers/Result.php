@@ -1386,8 +1386,6 @@ class Result extends CI_Controller {
 	                        <footer class="blockquote-footer text-right">Doc Control</footer>';
 	            }
 			}
-
-
                 $mpdf->WriteHTML($data);
                 $mpdf->Output();
 		} elseif ($parameter == 'pengesahan') {
@@ -1415,13 +1413,82 @@ class Result extends CI_Controller {
 				$this->db->select('release_approves.approve_dept_by');
 				$this->db->select('release_approves.approve_dc_by');
 				$this->db->select('release_approves.approve_mr_by');
+				$this->db->select('release_approves.approve_dept_date');
+				$this->db->select('release_approves.approve_dc_date');
+				$this->db->select('release_approves.approve_mr_date');
 				$this->db->from('doc_release_header');
 				$this->db->join('release_approves', 'doc_release_header.doc_release_header_id = release_approves.doc_release_header_id', 'left');
 				$this->db->where('doc_release_header.doc_status', 1);
 				$this->db->where('doc_release_header.doc_release_header_id', $doc_release_header_id);
 				$this->db->order_by('release_approves.approve_mr_date','ASC');
 				$pengesahan = $this->db->get()->result_array();
-				var_dump($pengesahan);
+
+			$mpdf = new \Mpdf\Mpdf();
+					$data = '<style>
+								#box1{
+									width:150px;
+									height:150px;
+									border-style: groove;
+									border-width: 25px;
+								}
+							 </style>
+							<div style="text-align: center;">';
+
+	                $data .= '<h3>LEMBAR PENGESAHAN</h3>';
+	                $data .= '</div>
+	                        <hr/>';
+	                		$no = 1; $sw = 0; foreach ($pengesahan as $s => $value) :
+	                        // make doc_no
+		                      $doc_no = 'ILP-'.$this->Result_model->get_name_by_id('document', $value['doc_type_id'], 'document_code');
+		                      $doc_no .= '-'.$this->Result_model->get_name_by_id('department', $value['department_id'], 'department_code');
+		                      if ($value['doc_category_id'] < 10) {
+		                        $doc_category_id = '0'.$value['doc_category_id'];
+		                      } else {
+		                        $doc_category_id = $value['doc_category_id'];
+		                      }
+		                      $doc_no .= '-'.$doc_category_id;
+		                      if ($value['doc_no'] < 10) {
+		                        $doc_nomor_urut = '0'.$value['doc_no'];
+		                      } else {
+		                        $doc_nomor_urut = $value['doc_no'];
+		                      }
+		                      $doc_no .= '-'.$doc_nomor_urut;
+		                      $revisi_no = $this->Result_model->get_name_by_id('doc_release_header', $value['doc_release_header_id'], 'revisi_no');
+		                      if ($revisi_no == NULL) {
+		                        $revisi_no = '00';
+		                      } else {
+		                        if ($revisi_no < 10) {
+		                          $revisi_no = '0'.$revisi_no;
+		                        } else {
+		                          $revisi_no = $revisi_no;
+		                        }
+		                      }
+		                      $doc_no .= '-'.$revisi_no;
+	                $data .= '<h3 style="color:red;text-align:center;">'.$doc_no.'</h3>';
+	                $data .= '<h6 style="color:red;text-align:center;">Revisi        : 0'.$value['revisi_no'].'</h6>';
+	                $data .= '<h6>Document Name : '.$value['doc_title'].'</h6>';
+	                $data .= '<h6>Release Date : '.date('d F Y',strtotime($value['approve_mr_date'])).'</h6>';
+	                $data .= '<table border="1" style="text-align:center;position:fixed">
+	                          <thead>
+	                            <tr>
+	                              <th>Created</th>
+	                              <th>Approve Head Of Dept</th>
+	                              <th>Approve Staff DC</th>
+	                              <th>Approve Head Of MR</th>
+	                            </tr>
+	                          </thead>
+	                          <tbody>';
+	                $data .= '<tr>';
+	                $data .= '<td>1</td>';
+	                $data .= '<td><div id="box1">APPROVED</div></td>';
+	                $data .= '<td>1</td>';
+	                $data .= '<td>1</td>';
+	                $data .= '</tr>';
+	                $data .='</tbody>
+	                        </table>';
+	            			endforeach;
+			$mpdf->WriteHTML($data);
+            $mpdf->Output();
 		}
 	}
 	
