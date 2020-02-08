@@ -14,7 +14,7 @@
           <h5>Form Elements</h5>
         </div>
         <div class="widget-content nopadding ">
-          <form class="form-horizontal report" action="echo" >
+          <form class="form-horizontal report" action="<?php echo base_url('result/report/pdf'); ?>" method="POST">
             <div class="control-group">
               <label class="control-label">Choose Report (click)</label>
               <div class="controls">
@@ -38,7 +38,7 @@
                 <span class="help-block">Input tanggal akhir cetak laporan</span> </div>
             </div>
             <div class="form-actions">
-              <button type="button" class="btn btn-success pdf">PRINT TO PDF</button>
+              <button type="submit" class="btn btn-success pdf">PRINT TO PDF</button>
             </div>
           </form>
         </div>
@@ -53,6 +53,10 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('input.datepicker').datepicker();
+
+    $('#awal').change(function() {
+      console.log($(this).val())
+    })
   })
 </script>
 

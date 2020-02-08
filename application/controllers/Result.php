@@ -1070,7 +1070,7 @@ class Result extends CI_Controller {
 				'tgl_akhir' => $tgl_akhir	,
 			];
 
-			echo json_encode($data);
+			var_dump($data);
 		}
 	}
 	
