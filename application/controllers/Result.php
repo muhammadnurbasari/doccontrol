@@ -92,15 +92,22 @@ class Result extends CI_Controller {
 		$this->_sessionguard();
 		$data['title'] = 'Dashboard';
 		$data['table'] = 'user';
+		$this->db->where('release_approves.approve_dept_by !=', NULL);
 		$this->db->where('doc_release_header.doc_status', 0);
 		$this->querydash();
 		$data['progress'] = $this->db->get()->result_array();
+		$this->db->where('doc_release_header.doc_status', 0);
+		$this->querydash();
+		$data['dashboard'] = $this->db->get()->result_array();
 		$this->db->where('doc_release_header.doc_status', 1);
 		$this->querydash();
 		$data['release'] = $this->db->get()->result_array();
 		$this->db->where('doc_release_header.doc_status', 4);
 		$this->querydash();
 		$data['expired'] = $this->db->get()->result_array();
+		$this->db->where('release_approves.approve_dept_by', NULL);
+		$this->querydash();
+		$data['noapprove'] = $this->db->get()->result_array();
 		$this->templating('dashboard', $data);
 	}
 

@@ -12,8 +12,8 @@
   <div class="container-fluid">
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <li class="bg_lb"> <a href=""> <i class="icon-book"></i> <span class="label label-important"><?php echo count($progress) ?></span> Release Documents Propose </a> </li>
-        <li class="bg_lg span3"> <a href=""> <i class="icon-check"></i> Approves Propose</a> </li>
+        <li class="bg_lb"> <a href=""> <i class="icon-book"></i> <span class="label label-important"><?php echo count($noapprove) ?></span> Release Documents Propose </a> </li>
+        <li class="bg_lg span3"> <a href=""> <i class="icon-check"></i><span class="label label-important"><?php echo count($progress) ?></span> Approves Propose</a> </li>
         <li class="bg_ly"> <a href=""> <i class="icon-reorder"></i><span class="label label-success"><?php echo count($release) ?></span> All Documents Release </a> </li>
         <li class="bg_lo"> <a href=""> <i class="icon-time"></i><span class="label label-success"><?php echo count($expired) ?></span> Expired Documents</a> </li>
       </ul>
@@ -42,7 +42,7 @@
                 </tr>
               </thead>
               <tbody>
-                <?php $no = 1; foreach ($progress as $key => $value): 
+                <?php $no = 1; foreach ($dashboard as $key => $value): 
                           // make doc_no
                           $doc_no = 'ILP-'.$this->Result_model->get_name_by_id('document', $value['doc_type_id'], 'document_code');
                           $doc_no .= '-'.$this->Result_model->get_name_by_id('department', $value['department_id'], 'department_code');
