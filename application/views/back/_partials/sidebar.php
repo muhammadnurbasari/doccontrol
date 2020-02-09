@@ -23,7 +23,7 @@
         <li style="display : none;" class="master_doc_list"><a href="<?php echo base_url('result/master_doc_list'); ?>">Master Doc List</a></li>
         <li style="display : none;" class="expired_doc"><a href="<?php echo base_url('result/expired'); ?>">Expired Doc</a></li>
         <li style="display : none;" class="destroyed"><a href="<?php echo base_url('result/destroyed'); ?>">Destroyed</a></li>
-        <li style="display : none;" class="external_doc"><a href="<?php echo base_url('result/notfound'); ?>">External Doc</a></li>
+        <!-- <li style="display : none;" class="external_doc"><a href="<?php echo base_url('result/notfound'); ?>">External Doc</a></li> -->
       </ul>
     </li>
     <li style="display : none;" class="report"><a href="<?php echo base_url('result/report'); ?>"><i class="icon-print"></i> <span>Report</span></a> </li>
