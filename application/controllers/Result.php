@@ -1309,7 +1309,7 @@ class Result extends CI_Controller {
 	                			</h4>
 	                         </div>
 	                        <hr/>';
-	                $data .= '<table border="1">
+	                $data .= '<table border="1" style="width:800px;">
 	                          <thead>
 	                            <tr>
 	                              <th>No</th>
