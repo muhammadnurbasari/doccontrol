@@ -28,7 +28,7 @@
                     <th>Destroyed At</th>
                     <th>Destroyed Note</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <!-- <th>Action</th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -93,11 +93,11 @@
                             <span class="label label-important">Destroyed</span>
                         <?php } ?>
                        </td>
-                      <td>
+                      <!-- <td>
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
                           <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> details</span>
                         </a>
-                      </td>  
+                      </td>  --> 
                     </tr>
                   <?php endforeach ?>
                 </tbody>
