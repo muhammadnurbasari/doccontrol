@@ -1135,7 +1135,7 @@ class Result extends CI_Controller {
 			$jenis	= $this->input->post('jenis');
 			$tgl_awal	= $this->input->post('tgl_awal');
 			$tgl_akhir	= $this->input->post('tgl_akhir');
-			$mpdf = new \Mpdf\Mpdf();
+			$mpdf = new \Mpdf\Mpdf(['format' => 'Legal']);
 
 			if ($jenis == 'release') {
 				$this->db->select('doc_release_header.doc_release_header_id');
@@ -1161,6 +1161,9 @@ class Result extends CI_Controller {
 				$this->db->select('release_approves.approve_dept_by');
 				$this->db->select('release_approves.approve_dc_by');
 				$this->db->select('release_approves.approve_mr_by');
+				$this->db->select('release_approves.approve_dept_date');
+				$this->db->select('release_approves.approve_dc_date');
+				$this->db->select('release_approves.approve_mr_date');
 				$this->db->from('doc_release_header');
 				$this->db->join('release_approves', 'doc_release_header.doc_release_header_id = release_approves.doc_release_header_id', 'left');
 				$this->db->where('doc_release_header.doc_status', 1);
@@ -1173,9 +1176,11 @@ class Result extends CI_Controller {
 					$mpdf->AddPage('L');
 					$data = '<div style="text-align: center;">';
 
-	                $data .= '<h3>DOCUMENT CONTROL</h3>
-	                            <h3>Laporan Document Release</h3>
-	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= '<img src='.base_url('assets/img/logo2.jpeg').' style="width:10%;float:left;margin-right:-100">
+	                			<h4>
+	                			Document Control<br>
+	                            Laporan Document Release<br>
+	                            '.date('d F Y', strtotime($tgl_awal));
 	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
 	                $data .= '</h4>
 	                         </div>
@@ -1185,11 +1190,14 @@ class Result extends CI_Controller {
 					$mpdf->AddPage('L');
 	                $data = '<div style="text-align: center;">';
 
-	                $data .= '<h3>DOCUMENT CONTROL</h3>
-	                            <h3>Laporan Document Release</h3>
-	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= '<img src='.base_url('assets/img/logo2.jpeg').' style="width:10%;float:left;margin-right:-100">
+	                			<h4>
+	                			Document Control<br>
+	                            Laporan Document Release<br>
+	                            '.date('d F Y', strtotime($tgl_awal));
 	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
-	                $data .= '</h4>
+	                $data .= '
+	                			</h4>
 	                         </div>
 	                        <hr/>';
 	                $data .= '<table border="1">
@@ -1204,6 +1212,9 @@ class Result extends CI_Controller {
 	                              <th>Approved Head Of Dept By</th>
 	                              <th>Approved Staff DC By</th>
 	                              <th>Approved Head Of MR By</th>
+	                              <th>Date Approved Head Of Dept</th>
+	                              <th>Date Approved Staff DC</th>
+	                              <th>Date Approved Head Of MR</th>
 	                            </tr>
 	                          </thead>
 	                          <tbody>';
@@ -1254,6 +1265,12 @@ class Result extends CI_Controller {
 	                    $data .='</td>
 	                             <td style="text-align:center;">'.$this->Result_model->get_name_by_id('user', $value['approve_mr_by'], 'user_name');
 	                    $data .='</td>
+	                             <td style="text-align:center;">'.date('d-m-Y',strtotime($value['approve_dept_date']));
+	                    $data .='</td>
+	                             <td style="text-align:center;">'.date('d-m-Y',strtotime($value['approve_dc_date']));
+	                    $data .='</td>
+	                             <td style="text-align:center;">'.date('d-m-Y',strtotime($value['approve_mr_date']));
+	                    $data .='</td>
 	                            </tr>';
 	                    endforeach;
 	                  $data .='</tbody>
@@ -1268,22 +1285,28 @@ class Result extends CI_Controller {
 				if (!$expired) {
 					$data = '<div style="text-align: center;">';
 
-	                $data .= '<h3>DOCUMENT CONTROL</h3>
-	                            <h3>Laporan Document Expired</h3>
-	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= '<img src='.base_url('assets/img/logo2.jpeg').' style="width:20%;float:left;margin-right:-100">
+	                			<h4>
+	                			Document Control<br>
+	                            Laporan Document Expired<br>
+	                            '.date('d F Y', strtotime($tgl_awal));
 	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
-	                $data .= '</h4>
+	                $data .= '
+	                			</h4>
 	                         </div>
 	                        <hr/>';
 	                $data .= '<h3 style="background-color:red;text-align:center;">Maaf Tidak ada Report Expired untuk tanggal yang di pilih</h3>';
 				} else {
 					$data = '<div style="text-align: center;">';
 
-	                $data .= '<h3>DOCUMENT CONTROL</h3>
-	                            <h3>Laporan Document Expired</h3>
-	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= '<img src='.base_url('assets/img/logo2.jpeg').' style="width:20%;float:left;margin-right:-100">
+	                			<h4>
+	                			Document Control<br>
+	                            Laporan Document Expired<br>
+	                            '.date('d F Y', strtotime($tgl_awal));
 	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
-	                $data .= '</h4>
+	                $data .= '
+	                			</h4>
 	                         </div>
 	                        <hr/>';
 	                $data .= '<table border="1">
@@ -1353,22 +1376,28 @@ class Result extends CI_Controller {
 				if (!$destroyed) {
 					$data = '<div style="text-align: center;">';
 
-	                $data .= '<h3>DOCUMENT CONTROL</h3>
-	                            <h3>Laporan Document Destroyed</h3>
-	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= '<img src='.base_url('assets/img/logo2.jpeg').' style="width:20%;float:left;margin-right:-100">
+	                			<h4>
+	                			Document Control<br>
+	                            Laporan Document Destroyed<br>
+	                            '.date('d F Y', strtotime($tgl_awal));
 	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
-	                $data .= '</h4>
+	                $data .= '
+	                			</h4>
 	                         </div>
 	                        <hr/>';
 	                $data .= '<h3 style="background-color:red;text-align:center;">Maaf Tidak ada Report Destroyed untuk tanggal yang di pilih</h3>';
 				} else {
 					$data = '<div style="text-align: center;">';
 
-	                $data .= '<h3>DOCUMENT CONTROL</h3>
-	                            <h3>Laporan Document Destroyed</h3>
-	                            <h4>'.date('d F Y', strtotime($tgl_awal));
+	                $data .= '<img src='.base_url('assets/img/logo2.jpeg').' style="width:20%;float:left;margin-right:-100">
+	                			<h4>
+	                			Document Control<br>
+	                            Laporan Document Destroyed<br>
+	                            '.date('d F Y', strtotime($tgl_awal));
 	                $data .= ' s/d '.date('d F Y', strtotime($tgl_akhir));
-	                $data .= '</h4>
+	                $data .= '
+	                			</h4>
 	                         </div>
 	                        <hr/>';
 	                $data .= '<table border="1">
@@ -1487,8 +1516,14 @@ class Result extends CI_Controller {
 							 </style>
 							<div style="text-align: center;">';
 
-	                $data .= '<h3>LEMBAR PENGESAHAN</h3>';
-	                $data .= '</div>
+	                $data .= '<img src='.base_url('assets/img/logo2.jpeg').' style="width:20%;float:left;margin-right:-100">
+	                			<h2>
+	                			Document Control<br>
+	                            Lembar Pengesahan<br>
+	                            ';
+	                $data .= '
+	                			</h2>
+	                         </div>
 	                        <hr/>';
 	                		$no = 1; $sw = 0; foreach ($pengesahan as $s => $value) :
 	                        // make doc_no
