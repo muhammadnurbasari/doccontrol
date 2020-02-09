@@ -57,7 +57,7 @@
                         <div class="controls controls-row">
                           <input type="text" class="span1 m-wrap" readonly value="ILP" name="ilp">
                           <input type="hidden" class="span1 m-wrap doc_id" readonly>
-                          <select class="span2 m-wrap doc_id" name="doc_type_id">
+                          <select class="span2 m-wrap doc_id" name="doc_type_id" readonly>
                             <option value="" disabled>pilih doc</option>
                             <?php
                               $this->db->where('status', 1);
@@ -72,7 +72,7 @@
                             ?>
                           </select>
                           <input type="text" readonly name="department_id" value="<?php echo $this->Result_model->get_name_by_id('department', $results->department_id, 'department_code'); ?>" class="span2 m-wrap">
-                          <select class="span5 m-wrap doc_category" name="doc_category_id">
+                          <select class="span5 m-wrap doc_category" name="doc_category_id" readonly>
                             <option value="" disabled>pilih doc category</option>
                             <?php
                               $this->db->where('status', 1);
