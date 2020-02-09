@@ -1170,6 +1170,7 @@ class Result extends CI_Controller {
 				$release = $this->db->get()->result_array();
 
 				if (!$release) {
+					$mpdf->AddPage('L');
 					$data = '<div style="text-align: center;">';
 
 	                $data .= '<h3>DOCUMENT CONTROL</h3>
@@ -1181,6 +1182,7 @@ class Result extends CI_Controller {
 	                        <hr/>';
 	                $data .= '<h3 style="background-color:red;text-align:center;">Maaf Tidak ada Report Release untuk tanggal yang di pilih</h3>';
 				} else {
+					$mpdf->AddPage('L');
 	                $data = '<div style="text-align: center;">';
 
 	                $data .= '<h3>DOCUMENT CONTROL</h3>
