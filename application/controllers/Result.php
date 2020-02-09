@@ -59,11 +59,7 @@ class Result extends CI_Controller {
 		}
 	}
 
-	function dashboard()
-	{
-		$this->_sessionguard();
-		$data['title'] = 'Dashboard';
-		$data['table'] = 'user';
+	function querydash(){
 				$this->db->select('doc_release_header.doc_release_header_id');
 				$this->db->select('doc_release_header.doc_release_code');
 				$this->db->select('doc_release_header.doc_release_date');
@@ -89,8 +85,22 @@ class Result extends CI_Controller {
 				$this->db->select('release_approves.approve_mr_by');
 				$this->db->from('doc_release_header');
 				$this->db->join('release_approves', 'doc_release_header.doc_release_header_id = release_approves.doc_release_header_id', 'left');
-				$this->db->where('doc_release_header.doc_status', 0);
+	}
+
+	function dashboard()
+	{
+		$this->_sessionguard();
+		$data['title'] = 'Dashboard';
+		$data['table'] = 'user';
+		$this->db->where('doc_release_header.doc_status', 0);
+		$this->querydash();
 		$data['progress'] = $this->db->get()->result_array();
+		$this->db->where('doc_release_header.doc_status', 1);
+		$this->querydash();
+		$data['release'] = $this->db->get()->result_array();
+		$this->db->where('doc_release_header.doc_status', 4);
+		$this->querydash();
+		$data['expired'] = $this->db->get()->result_array();
 		$this->templating('dashboard', $data);
 	}
 

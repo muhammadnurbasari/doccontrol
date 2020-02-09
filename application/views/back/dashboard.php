@@ -14,8 +14,8 @@
       <ul class="quick-actions">
         <li class="bg_lb"> <a href=""> <i class="icon-book"></i> <span class="label label-important"><?php echo count($progress) ?></span> Release Documents Propose </a> </li>
         <li class="bg_lg span3"> <a href=""> <i class="icon-check"></i> Approves Propose</a> </li>
-        <li class="bg_ly"> <a href=""> <i class="icon-reorder"></i><span class="label label-success">101</span> All Documents Release </a> </li>
-        <li class="bg_lo"> <a href=""> <i class="icon-time"></i> Expired Documents</a> </li>
+        <li class="bg_ly"> <a href=""> <i class="icon-reorder"></i><span class="label label-success"><?php echo count($release) ?></span> All Documents Release </a> </li>
+        <li class="bg_lo"> <a href=""> <i class="icon-time"></i><span class="label label-success"><?php echo count($expired) ?></span> Expired Documents</a> </li>
       </ul>
     </div>
 <!--End-Action boxes-->    
