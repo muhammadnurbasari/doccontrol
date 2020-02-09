@@ -191,6 +191,9 @@ input:checked + .slider:before {
                         <a target="_BLANK" href="<?php echo base_url('assets/files/release/'.$value['doc_file']) ?>">
                           <span class="badge tombol badge-warning" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-info-sign"></i> view & download</span>
                         </a>
+                        <a target="_BLANK" href="<?php echo base_url('result/report/pengesahan/'.$value['doc_release_header_id']) ?>">
+                          <span class="badge tombol badge-info" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-print"></i> Lembar Pengesahan</span>
+                        </a>
                         <span class="badge tombol badge-success details-distributions" data-toggle="modal" data-target="#modalDetailDistributions" data-id="<?php echo $value[$table.'_id']; ?>"><i class="icon-edit"></i> details</span>
                       </td>  
                     </tr>
