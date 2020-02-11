@@ -85,13 +85,13 @@
                     <div class="control-group">
                       <label class="control-label">Document Name :</label>
                       <div class="controls">
-                        <input type="text" class="span11" name="doc_title">
+                        <input type="text" class="span11" name="doc_title" autocomplete="off">
                       </div>
                     </div>
                     <div class="control-group">
                       <label class="control-label">Release Description :</label>
                       <div class="controls">
-                        <input type="text" class="span11" name="description">
+                        <input type="text" class="span11" name="description" autocomplete="off">
                       </div>
                     </div>
                     <div class="control-group">

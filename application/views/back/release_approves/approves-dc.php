@@ -91,7 +91,7 @@
                     <div class="control-group">
                       <label class="control-label">Approve Note</label>
                       <div class="controls">
-                        <input type="text" name="approve_note" class="span11">
+                        <input type="text" name="approve_note" class="span11" required autocomplete="off">
                       </div>
                     </div>
                     <div class="control-group">
