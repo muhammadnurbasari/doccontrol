@@ -1,7 +1,7 @@
 
 <div id="content-header">
-  <div id="breadcrumb"> <a href="<?php echo base_url('result/doc_category'); ?>" class="tip-bottom"><i class="icon-home"></i> doc categorys</a> <a href="#" class="current">add doc category</a> </div>
-  <h1>Form Add doc category</h1>
+  <div id="breadcrumb"> <a href="<?php echo base_url('result/doc_category'); ?>" class="tip-bottom"><i class="icon-home"></i> Doc Categorys</a> <a href="#" class="current">add doc category</a> </div>
+  <h1>Form add Doc Category</h1>
 </div>
 <div class="container-fluid">
   <hr>
@@ -14,7 +14,7 @@
         <div class="widget-content nopadding">
           <form action="<?php echo base_url('result/'.$table.'/add'); ?>" method="post" class="form-horizontal add">
             <div class="control-group">
-              <label class="control-label">doc category code :</label>
+              <label class="control-label">Doc Category Name :</label>
               <div class="controls">
                 <input type="text" class="span11" name="doc_category_name" placeholder="doc category name" maxlength="100" required>
                 <p class="taskStatus error" style="display: none;"><span class="pending"><i class="icon-info-sign"></i> Doc Category Name sudah tersedia</span></p>
@@ -22,7 +22,7 @@
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">department code :</label>
+              <label class="control-label">Department Code :</label>
               <div class="controls">
                 <input type="text" class="span11" name="department_code" value="<?php echo $this->Result_model->get_name_by_id('department', $this->session->userdata('user')[0]['department_id'], 'department_code'); ?>" required readonly>
                 <input type="hidden" class="span11" name="department_id" value="<?php echo $this->session->userdata('user')[0]['department_id']; ?>" required readonly>
